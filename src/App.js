@@ -45,7 +45,8 @@ function NumberFormatCustom(props) {
 }
 
 function calculate(initialAmount, recurringAmount, growth, yearCount) {
-    const monthlyGrowth = Math.pow(1 + growth, 1 / 12) - 1;
+    const multiplier = 1 + growth;
+    const monthlyMultiplier = Math.pow(multiplier, 1 / 12);
 
     let valueByYear = [];
     valueByYear.push(initialAmount);
@@ -53,7 +54,7 @@ function calculate(initialAmount, recurringAmount, growth, yearCount) {
         let value = valueByYear[i - 1];
         for (let j = 0; j < 12; j++) {
             value += recurringAmount;
-            value *= 1 + monthlyGrowth;
+            value *= monthlyMultiplier;
         }
         valueByYear.push(value);
     }
