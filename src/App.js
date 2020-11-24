@@ -50,7 +50,7 @@ function calculate(initialAmount, recurringAmount, growth, yearCount) {
 
     let valueByYear = [];
     valueByYear.push(initialAmount);
-    for (let i = 1; i < yearCount; i++) {
+    for (let i = 1; i <= yearCount; i++) {
         let value = valueByYear[i - 1];
         for (let j = 0; j < 12; j++) {
             value += recurringAmount;
@@ -137,7 +137,7 @@ export default function App() {
                         {valueByYear.map((value, index) => (
                             <TableRow key={index}>
                                 <TableCell component="th" scope="row">
-                                    {`Year ${index + 1}`}
+                                    {`Year ${index}`}
                                 </TableCell>
                                 <TableCell align="right">
                                     <NumberFormat
