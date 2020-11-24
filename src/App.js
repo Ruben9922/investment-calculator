@@ -130,7 +130,7 @@ export default function App() {
                     <TableHead>
                         <TableRow>
                             <TableCell>Year</TableCell>
-                            <TableCell align="right">Value</TableCell>
+                            <TableCell align="right">Value ($)</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
