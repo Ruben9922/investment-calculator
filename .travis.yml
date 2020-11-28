@@ -4,8 +4,5 @@ node_js:
 script:
   - npm run build
 deploy:
-  provider: netlify
-  site: 5ddafc56-9508-4a7e-a90e-f097080575f8
-  prod: true
-  dir: build/
-  edge: true
+  provider: firebase
+  edge: true # opt in to dpl v2
