@@ -1,1 +1,3 @@
-[![Build Status](https://travis-ci.com/Ruben9922/investment-calculator.svg?branch=master)](https://travis-ci.com/Ruben9922/investment-calculator)
+# Investment Calculator
+
+![Build Status](https://github.com/Ruben9922/investment-calculator/actions/workflows/build-deploy.yml/badge.svg)
