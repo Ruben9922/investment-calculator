@@ -14,7 +14,8 @@ type FormProps = {
     setYearCountString: (updatedYearCountString: string) => void;
 };
 
-function NumberFormatCustom(props) {
+// fixme: replace any with proper type
+function NumberFormatCustom(props: any) {
     const {inputRef, onChange, ...other} = props;
 
     return (
