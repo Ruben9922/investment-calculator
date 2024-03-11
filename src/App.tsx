@@ -51,18 +51,18 @@ function App() {
                         </Alert>
                     )}
 
-                <Form
-                    initialAmountString={initialAmountString}
-                    recurringAmountString={recurringAmountString}
-                    growthString={growthString}
-                    yearCountString={yearCountString}
-                    setInitialAmountString={setInitialAmountString}
-                    setRecurringAmountString={setRecurringAmountString}
-                    setGrowthString={setGrowthString}
-                    setYearCountString={setYearCountString}
-                />
+                    <Form
+                        initialAmountString={initialAmountString}
+                        recurringAmountString={recurringAmountString}
+                        growthString={growthString}
+                        yearCountString={yearCountString}
+                        setInitialAmountString={setInitialAmountString}
+                        setRecurringAmountString={setRecurringAmountString}
+                        setGrowthString={setGrowthString}
+                        setYearCountString={setYearCountString}
+                    />
 
-                <Table valuesByYear={valuesByYear} />
+                    <Table valuesByYear={valuesByYear} />
                 </Stack>
             </Container>
         </>
