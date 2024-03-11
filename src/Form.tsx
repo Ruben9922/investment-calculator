@@ -1,6 +1,6 @@
-import {Grid} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Unstable_Grid2';
 import {NumericFormat} from "react-number-format";
 
 type FormProps = {
@@ -48,7 +48,7 @@ function Form({
               }: FormProps) {
     return (
         <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={3}>
                 <TextField
                     label="Initial amount"
                     value={initialAmountString}
@@ -62,7 +62,7 @@ function Form({
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={3}>
                 <TextField
                     label="Monthly amount"
                     value={recurringAmountString}
@@ -76,7 +76,7 @@ function Form({
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={3}>
                 <TextField
                     label="Annual growth"
                     value={growthString}
@@ -89,7 +89,7 @@ function Form({
                     fullWidth
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={3}>
                 <TextField
                     label="Years"
                     value={yearCountString}
