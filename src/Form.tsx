@@ -1,5 +1,5 @@
+import {Grid} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import {NumericFormat} from "react-number-format";
 
@@ -48,47 +48,59 @@ function Form({
                   setYearCountString,
               }: FormProps) {
     return (
-        <Stack direction="row" gap={2}>
-            <TextField
-                label="Initial amount"
-                value={initialAmountString}
-                onChange={event => setInitialAmountString(event.target.value)}
-                name="initialAmount"
-                InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    inputComponent: NumberFormatCustom,
-                }}
-                variant="outlined"
-            />
-            <TextField
-                label="Monthly amount"
-                value={recurringAmountString}
-                onChange={event => setRecurringAmountString(event.target.value)}
-                name="recurringAmount"
-                InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    inputComponent: NumberFormatCustom,
-                }}
-                variant="outlined"
-            />
-            <TextField
-                label="Annual growth"
-                value={growthString}
-                onChange={event => setGrowthString(event.target.value)}
-                name="growth"
-                InputProps={{
-                    endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                }}
-                variant="outlined"
-            />
-            <TextField
-                label="Years"
-                value={yearCountString}
-                onChange={event => setYearCountString(event.target.value)}
-                name="yearCount"
-                variant="outlined"
-            />
-        </Stack>
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+                <TextField
+                    label="Initial amount"
+                    value={initialAmountString}
+                    onChange={event => setInitialAmountString(event.target.value)}
+                    name="initialAmount"
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                        inputComponent: NumberFormatCustom,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+                <TextField
+                    label="Monthly amount"
+                    value={recurringAmountString}
+                    onChange={event => setRecurringAmountString(event.target.value)}
+                    name="recurringAmount"
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                        inputComponent: NumberFormatCustom,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+                <TextField
+                    label="Annual growth"
+                    value={growthString}
+                    onChange={event => setGrowthString(event.target.value)}
+                    name="growth"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+                <TextField
+                    label="Years"
+                    value={yearCountString}
+                    onChange={event => setYearCountString(event.target.value)}
+                    name="yearCount"
+                    variant="outlined"
+                    fullWidth
+                />
+            </Grid>
+        </Grid>
     );
 }
 
