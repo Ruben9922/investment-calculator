@@ -1,9 +1,10 @@
-import {Box, Container} from "@mui/material";
+import {Box, Container, useMediaQuery} from "@mui/material";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from '@mui/material/Stack';
-import {useState} from "react";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {useMemo, useState} from "react";
 import Form from "./Form.tsx";
 import Header from "./Header.tsx";
 import Table from "./Table.tsx";
@@ -38,10 +39,24 @@ function App() {
     const yearCount = parseInt(yearCountString);
     const valuesByYear = calculate(initialAmount, recurringAmount, growth, yearCount);
 
+    const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+    const [mode, setMode] = useState<'light' | 'dark'>(prefersDarkMode ? "dark" : "light");
+
+    const theme = useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode,
+                },
+            }),
+        [mode],
+    );
+
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Header />
+            <Header isDarkMode={mode ==="dark"} toggleDarkMode={()=>setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))} />
             <Container maxWidth="md" component={Box} padding={4}>
                 <Stack spacing={4}>
                     {isAlertShown && (
@@ -65,7 +80,7 @@ function App() {
                     <Table valuesByYear={valuesByYear} />
                 </Stack>
             </Container>
-        </>
+        </ThemeProvider>
     );
 }
 

@@ -1,3 +1,5 @@
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import AppBar from '@mui/material/AppBar';
@@ -7,7 +9,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from "@mui/material/Tooltip";
 import Typography from '@mui/material/Typography';
 
-function Header() {
+type HeaderProps = {
+    isDarkMode: boolean;
+    toggleDarkMode: () => void;
+}
+
+function Header({ isDarkMode, toggleDarkMode }: HeaderProps) {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -23,6 +30,11 @@ function Header() {
                     <Tooltip title="GitHub repository">
                         <IconButton aria-label="GitHub" href="https://github.com/Ruben9922/investment-calculator" color="inherit">
                             <GitHubIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={`Switch to ${isDarkMode ? "light" : "dark"} mode`}>
+                        <IconButton aria-label="GitHub" onClick={toggleDarkMode} color="inherit">
+                            {isDarkMode ? <Brightness7Icon/> : <Brightness4Icon/>}
                         </IconButton>
                     </Tooltip>
                 </Toolbar>
