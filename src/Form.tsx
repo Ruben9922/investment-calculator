@@ -31,7 +31,7 @@ function NumberFormatCustom(props: any) {
                 });
             }}
             thousandSeparator
-            isNumericString
+            valueIsNumericString
             decimalScale={0}
         />
     );
