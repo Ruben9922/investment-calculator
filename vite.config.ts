@@ -5,4 +5,9 @@ import {defineConfig} from 'vite'
 export default defineConfig({
   plugins: [react()],
   base: "/projects/investment-calculator/",
+
+  define: {
+    // Fix for "global is not defined" error when using use-dark-mode
+    global: {},
+  },
 })

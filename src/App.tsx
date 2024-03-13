@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Stack from '@mui/material/Stack';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useMemo, useState} from "react";
+import useDarkMode from "use-dark-mode";
 import Form from "./Form.tsx";
 import Header from "./Header.tsx";
 import Table from "./Table.tsx";
@@ -41,22 +42,22 @@ function App() {
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
-    const [mode, setMode] = useState<'light' | 'dark'>(prefersDarkMode ? "dark" : "light");
+    // Setting onChange to empty function to prevent default behaviour of automatically setting the <body> element's class
+    const darkMode = useDarkMode(prefersDarkMode, { onChange: () => {} });
 
-    const theme = useMemo(
-        () =>
+    const theme = useMemo(() =>
             createTheme({
                 palette: {
-                    mode,
+                    mode: darkMode.value ? "dark" : "light",
                 },
             }),
-        [mode],
+        [darkMode.value],
     );
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Header isDarkMode={mode ==="dark"} toggleDarkMode={()=>setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))} />
+            <Header isDarkMode={darkMode.value} toggleDarkMode={darkMode.toggle} />
             <Container maxWidth="md" component={Box} padding={4}>
                 <Stack spacing={4}>
                     {isAlertShown && (
