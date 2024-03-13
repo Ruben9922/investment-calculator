@@ -1,6 +1,7 @@
 import {Box, Container, useMediaQuery} from "@mui/material";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import {blue, grey, pink} from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from '@mui/material/Stack';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
@@ -46,17 +47,62 @@ function App() {
     const darkMode = useDarkMode(prefersDarkMode, { onChange: () => {} });
 
     const theme = useMemo(() =>
-            createTheme({
-                palette: {
-                    mode: darkMode.value ? "dark" : "light",
-                },
-            }),
-        [darkMode.value],
+        createTheme({
+            // palette: {
+            //     mode: darkMode.value ? "dark" : "light",
+            //     primary: {
+            //         main: darkMode.value ? blue[800] : blue[900],
+            //     },
+            //     secondary: {
+            //         main: darkMode.value ? pink[200] : "#dc004e",
+            //     },
+            // },
+
+            palette: {
+                mode: darkMode.value ? "dark" : "light",
+                ...(darkMode.value ? {
+                    primary: {
+                        main: blue[200],
+                    },
+                    secondary: {
+                        main: pink[200],
+                    },
+                    background: {
+                        default: "#303030",
+                        paper: "#424242",
+                    },
+                    text: {
+                        primary: "#fff",
+                        secondary: "rgba(255, 255, 255, 0.7)",
+                    },
+                    divider: grey[500],
+                } : {
+                    primary: {
+                        main: blue[900],
+                    },
+                    secondary: {
+                        main: "#dc004e",
+                    },
+                    background: {
+                        default: "#fafafa",
+                        paper: "#fff",
+                    },
+                    text: {
+                        primary: "rgba(0, 0, 0, 0.87)",
+                        secondary: "rgba(0, 0, 0, 0.54)",
+                    },
+                    // divider: grey[900],
+                }),
+            }
+        }),
+    [darkMode.value],
     );
+
+    console.log(theme);
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
+            <CssBaseline enableColorScheme />
             <Header isDarkMode={darkMode.value} toggleDarkMode={darkMode.toggle} />
             <Container maxWidth="md" component={Box} padding={4}>
                 <Stack spacing={4}>

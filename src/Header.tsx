@@ -4,6 +4,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import {blue} from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from "@mui/material/Tooltip";
@@ -17,7 +18,10 @@ type HeaderProps = {
 function Header({ isDarkMode, toggleDarkMode }: HeaderProps) {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" sx={theme => ({
+                backgroundColor: theme.palette.mode === "light" ? theme.palette.primary.main : blue[800],
+                backgroundImage: "none",
+            })}>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Investment Calculator
