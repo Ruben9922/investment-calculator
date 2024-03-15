@@ -20,6 +20,11 @@ export function formatNumberForTable(value: number): string {
 }
 
 function validateNumber(value: number, min: number, max: number): string | null {
+    if (isNaN(value)) {
+        // Value can only be `NaN` if text field is empty
+        return "Cannot be empty.";
+    }
+
     if (value < min || value > max) {
         return `Must be between ${formatNumberForErrorMessage(min)} and ${formatNumberForErrorMessage(max)} (inclusive).`
     }
