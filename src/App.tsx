@@ -65,8 +65,6 @@ function App() {
     [darkMode.value],
     );
 
-    console.log(theme);
-
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline enableColorScheme />
