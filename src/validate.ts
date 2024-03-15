@@ -8,6 +8,10 @@ function formatNumberForErrorMessage(value: number): string {
 }
 
 export function formatNumberForTable(value: number): string {
+    if (value === Number.POSITIVE_INFINITY) {
+        return "An incomprehensible amount of money 💰🤯";
+    }
+
     return value >= 1_000_000_000_000_000
         ? value.toExponential(3)
             .replace("e", " × 10^")
