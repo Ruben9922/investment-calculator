@@ -21,11 +21,11 @@ type TableProps = {
 function Table({ initialAmountString, recurringAmountString, growthString, yearCountString }: TableProps) {
     const initialAmount = parseFloat(initialAmountString);
     const recurringAmount = parseFloat(recurringAmountString);
-    const growth = parseFloat(growthString) / 100;
+    const growth = parseFloat(growthString);
     const yearCount = parseInt(yearCountString);
 
     const valid = validate(initialAmount, recurringAmount, growth, yearCount);
-    const valuesByYear = valid ? calculate(initialAmount, recurringAmount, growth, yearCount) : null;
+    const valuesByYear = valid ? calculate(initialAmount, recurringAmount, growth / 100, yearCount) : null;
 
     return valid ? (
         <TableContainer component={Paper}>

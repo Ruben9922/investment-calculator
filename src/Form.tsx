@@ -50,7 +50,7 @@ function Form({
               }: FormProps) {
     const initialAmount = parseFloat(initialAmountString);
     const recurringAmount = parseFloat(recurringAmountString);
-    const growth = parseFloat(growthString) / 100;
+    const growth = parseFloat(growthString);
     const yearCount = parseInt(yearCountString);
 
     const initialAmountErrorMessage = validateInitialAmount(initialAmount);
