@@ -11,35 +11,12 @@ import Form from "./Form.tsx";
 import Header from "./Header.tsx";
 import Table from "./Table.tsx";
 
-function calculate(initialAmount: number, recurringAmount: number, growth: number, yearCount: number): number[] {
-    const multiplier = 1 + growth;
-    const monthlyMultiplier = multiplier ** (1 / 12);
-
-    const valuesByYear: number[] = [];
-    valuesByYear.push(initialAmount);
-    for (let i = 1; i <= yearCount; i++) {
-        let value = valuesByYear[i - 1];
-        for (let j = 0; j < 12; j++) {
-            value += recurringAmount;
-            value *= monthlyMultiplier;
-        }
-        valuesByYear.push(value);
-    }
-    return valuesByYear;
-}
-
 function App() {
     const [initialAmountString, setInitialAmountString] = useState("20000");
     const [recurringAmountString, setRecurringAmountString] = useState("500");
     const [growthString, setGrowthString] = useState("10");
     const [yearCountString, setYearCountString] = useState("50");
     const [isAlertShown, setIsAlertShown] = useState(true);
-
-    const initialAmount = parseFloat(initialAmountString);
-    const recurringAmount = parseFloat(recurringAmountString);
-    const growth = parseFloat(growthString) / 100;
-    const yearCount = parseInt(yearCountString);
-    const valuesByYear = calculate(initialAmount, recurringAmount, growth, yearCount);
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -48,16 +25,6 @@ function App() {
 
     const theme = useMemo(() =>
         createTheme({
-            // palette: {
-            //     mode: darkMode.value ? "dark" : "light",
-            //     primary: {
-            //         main: darkMode.value ? blue[800] : blue[900],
-            //     },
-            //     secondary: {
-            //         main: darkMode.value ? pink[200] : "#dc004e",
-            //     },
-            // },
-
             palette: {
                 mode: darkMode.value ? "dark" : "light",
                 ...(darkMode.value ? {
@@ -124,7 +91,12 @@ function App() {
                         setYearCountString={setYearCountString}
                     />
 
-                    <Table valuesByYear={valuesByYear} />
+                    <Table
+                        initialAmountString={initialAmountString}
+                        recurringAmountString={recurringAmountString}
+                        growthString={growthString}
+                        yearCountString={yearCountString}
+                    />
                 </Stack>
             </Container>
         </ThemeProvider>

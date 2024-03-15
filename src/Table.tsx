@@ -6,13 +6,28 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {NumericFormat} from "react-number-format";
+import {calculate} from "./calculate.ts";
+import {validate} from "./validate.ts";
+import AlertTitle from "@mui/material/AlertTitle";
+import Alert from "@mui/material/Alert";
 
 type TableProps = {
-    valuesByYear: number[];
+    initialAmountString: string;
+    recurringAmountString: string;
+    growthString: string;
+    yearCountString: string;
 };
 
-function Table({ valuesByYear }: TableProps) {
-    return (
+function Table({ initialAmountString, recurringAmountString, growthString, yearCountString }: TableProps) {
+    const initialAmount = parseFloat(initialAmountString);
+    const recurringAmount = parseFloat(recurringAmountString);
+    const growth = parseFloat(growthString) / 100;
+    const yearCount = parseInt(yearCountString);
+
+    const valid = validate(initialAmount, recurringAmount, growth, yearCount);
+    const valuesByYear = valid ? calculate(initialAmount, recurringAmount, growth, yearCount) : null;
+
+    return valid ? (
         <TableContainer component={Paper}>
             <MuiTable size="small" aria-label="table containing values for each year">
                 <TableHead>
@@ -22,7 +37,7 @@ function Table({ valuesByYear }: TableProps) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {valuesByYear.map((value, index) => (
+                    {valuesByYear!.map((value, index) => (
                         <TableRow key={index}>
                             <TableCell component="th" scope="row">
                                 {`Year ${index}`}
@@ -33,13 +48,19 @@ function Table({ valuesByYear }: TableProps) {
                                     displayType="text"
                                     thousandSeparator
                                     valueIsNumericString
-                                    decimalScale={0}/>
+                                    decimalScale={0}
+                                />
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </MuiTable>
         </TableContainer>
+    ) : (
+        <Alert severity="error">
+            <AlertTitle>Invalid input</AlertTitle>
+            Please fix the errors and try again.
+        </Alert>
     );
 }
 

@@ -2,6 +2,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Unstable_Grid2';
 import {NumericFormat} from "react-number-format";
+import {validateGrowth, validateInitialAmount, validateRecurringAmount, validateYearCount} from "./validate.ts";
 
 type FormProps = {
     initialAmountString: string;
@@ -47,6 +48,16 @@ function Form({
                   setGrowthString,
                   setYearCountString,
               }: FormProps) {
+    const initialAmount = parseFloat(initialAmountString);
+    const recurringAmount = parseFloat(recurringAmountString);
+    const growth = parseFloat(growthString) / 100;
+    const yearCount = parseInt(yearCountString);
+
+    const initialAmountErrorMessage = validateInitialAmount(initialAmount);
+    const recurringAmountErrorMessage = validateRecurringAmount(recurringAmount);
+    const growthErrorMessage = validateGrowth(growth);
+    const yearCountErrorMessage = validateYearCount(yearCount);
+
     return (
         <Grid container spacing={2}>
             <Grid xs={12} sm={6} md={3}>
@@ -61,6 +72,8 @@ function Form({
                     }}
                     variant="outlined"
                     fullWidth
+                    error={!!initialAmountErrorMessage}
+                    helperText={initialAmountErrorMessage}
                 />
             </Grid>
             <Grid xs={12} sm={6} md={3}>
@@ -75,6 +88,8 @@ function Form({
                     }}
                     variant="outlined"
                     fullWidth
+                    error={!!recurringAmountErrorMessage}
+                    helperText={recurringAmountErrorMessage}
                 />
             </Grid>
             <Grid xs={12} sm={6} md={3}>
@@ -89,6 +104,8 @@ function Form({
                     }}
                     variant="outlined"
                     fullWidth
+                    error={!!growthErrorMessage}
+                    helperText={growthErrorMessage}
                 />
             </Grid>
             <Grid xs={12} sm={6} md={3}>
@@ -102,6 +119,8 @@ function Form({
                     }}
                     variant="outlined"
                     fullWidth
+                    error={!!yearCountErrorMessage}
+                    helperText={yearCountErrorMessage}
                 />
             </Grid>
         </Grid>
