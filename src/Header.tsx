@@ -32,7 +32,13 @@ function Header({ isDarkMode, toggleDarkMode }: HeaderProps) {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="GitHub repository">
-                        <IconButton aria-label="GitHub" href="https://github.com/Ruben9922/investment-calculator" color="inherit">
+                        <IconButton
+                            aria-label="GitHub"
+                            href="https://github.com/Ruben9922/investment-calculator"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            color="inherit"
+                        >
                             <GitHubIcon />
                         </IconButton>
                     </Tooltip>
