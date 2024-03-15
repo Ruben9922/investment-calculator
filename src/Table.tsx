@@ -5,9 +5,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {NumericFormat} from "react-number-format";
 import {calculate} from "./calculate.ts";
-import {validate} from "./validate.ts";
+import {formatNumberForTable, validate} from "./validate.ts";
 import AlertTitle from "@mui/material/AlertTitle";
 import Alert from "@mui/material/Alert";
 
@@ -43,13 +42,7 @@ function Table({ initialAmountString, recurringAmountString, growthString, yearC
                                 {`Year ${index}`}
                             </TableCell>
                             <TableCell align="right">
-                                <NumericFormat
-                                    value={value}
-                                    displayType="text"
-                                    thousandSeparator
-                                    valueIsNumericString
-                                    decimalScale={0}
-                                />
+                                {formatNumberForTable(value)}
                             </TableCell>
                         </TableRow>
                     ))}

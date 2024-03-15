@@ -1,4 +1,4 @@
-function formatNumber(value: number): string {
+function formatNumberForErrorMessage(value: number): string {
     return value >= 1_000_000
         ? value.toExponential()
             .replace("e", "×10^")
@@ -7,9 +7,17 @@ function formatNumber(value: number): string {
         : value.toLocaleString();
 }
 
+export function formatNumberForTable(value: number): string {
+    return value >= 1_000_000_000_000_000
+        ? value.toExponential(3)
+            .replace("e", " × 10^")
+            .replace("+", "")
+        : value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+}
+
 function validateNumber(value: number, min: number, max: number): string | null {
     if (value < min || value > max) {
-        return `Must be between ${formatNumber(min)} and ${formatNumber(max)} (inclusive).`
+        return `Must be between ${formatNumberForErrorMessage(min)} and ${formatNumberForErrorMessage(max)} (inclusive).`
     }
 
     return null;
