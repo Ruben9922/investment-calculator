@@ -4,7 +4,7 @@ function formatNumber(value: number): string {
             .replace("e", "×10^")
             .replace("1×", "")
             .replace("+", "")
-        : value.toString(); // TODO: Add thousands separator
+        : value.toLocaleString();
 }
 
 function validateNumber(value: number, min: number, max: number): string | null {
