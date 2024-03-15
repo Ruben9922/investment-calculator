@@ -85,6 +85,7 @@ function Form({
                     name="growth"
                     InputProps={{
                         endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                        inputComponent: NumberFormatCustom,
                     }}
                     variant="outlined"
                     fullWidth
@@ -96,6 +97,9 @@ function Form({
                     value={yearCountString}
                     onChange={event => setYearCountString(event.target.value)}
                     name="yearCount"
+                    InputProps={{
+                        inputComponent: NumberFormatCustom,
+                    }}
                     variant="outlined"
                     fullWidth
                 />
