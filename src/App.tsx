@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useMemo, useState} from "react";
 import useDarkMode from "use-dark-mode";
+import Chart from "./Chart.tsx";
 import Form from "./Form.tsx";
 import Header from "./Header.tsx";
 import Table from "./Table.tsx";
@@ -87,6 +88,13 @@ function App() {
                         setRecurringAmountString={setRecurringAmountString}
                         setGrowthString={setGrowthString}
                         setYearCountString={setYearCountString}
+                    />
+
+                    <Chart
+                        initialAmountString={initialAmountString}
+                        recurringAmountString={recurringAmountString}
+                        growthString={growthString}
+                        yearCountString={yearCountString}
                     />
 
                     <Table

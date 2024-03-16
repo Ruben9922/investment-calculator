@@ -19,6 +19,14 @@ export function formatNumberForTable(value: number): string {
         : value.toLocaleString(undefined, { maximumFractionDigits: 0 });
 }
 
+export function formatNumberForChart(value: number): string {
+    return value >= 100_000
+        ? value.toExponential(0)
+            .replace("e", "×10^")
+            .replace("+", "")
+        : value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+}
+
 function validateNumber(value: number, min: number, max: number): string | null {
     if (isNaN(value)) {
         // Value can only be `NaN` if text field is empty
