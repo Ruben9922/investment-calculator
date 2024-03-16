@@ -7,10 +7,12 @@ import Stack from '@mui/material/Stack';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useMemo, useState} from "react";
 import useDarkMode from "use-dark-mode";
+import {calculate} from "./calculate.ts";
 import Chart from "./Chart.tsx";
 import Form from "./Form.tsx";
 import Header from "./Header.tsx";
 import Table from "./Table.tsx";
+import {validate} from "./validate.ts";
 
 function App() {
     const [initialAmountString, setInitialAmountString] = useState("20000");
@@ -18,6 +20,14 @@ function App() {
     const [growthString, setGrowthString] = useState("10");
     const [yearCountString, setYearCountString] = useState("50");
     const [isAlertShown, setIsAlertShown] = useState(true);
+
+    const initialAmount = parseFloat(initialAmountString);
+    const recurringAmount = parseFloat(recurringAmountString);
+    const growth = parseFloat(growthString);
+    const yearCount = parseInt(yearCountString);
+
+    const valid = validate(initialAmount, recurringAmount, growth, yearCount);
+    const valuesByYear = valid ? calculate(initialAmount, recurringAmount, growth / 100, yearCount) : null;
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -90,19 +100,17 @@ function App() {
                         setYearCountString={setYearCountString}
                     />
 
-                    <Chart
-                        initialAmountString={initialAmountString}
-                        recurringAmountString={recurringAmountString}
-                        growthString={growthString}
-                        yearCountString={yearCountString}
-                    />
-
-                    <Table
-                        initialAmountString={initialAmountString}
-                        recurringAmountString={recurringAmountString}
-                        growthString={growthString}
-                        yearCountString={yearCountString}
-                    />
+                    {valid ? (
+                        <>
+                            <Chart valuesByYear={valuesByYear!} yearCount={yearCount} />
+                            <Table valuesByYear={valuesByYear!} />
+                        </>
+                    ) : (
+                        <Alert severity="error">
+                            <AlertTitle>Invalid input</AlertTitle>
+                            Please fix the errors and try again.
+                        </Alert>
+                    )}
                 </Stack>
             </Container>
         </ThemeProvider>

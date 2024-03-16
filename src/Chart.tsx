@@ -1,24 +1,13 @@
 import {LineChart} from "@mui/x-charts";
-import {calculate} from "./calculate.ts";
-import {formatNumberForChart, formatNumberForTable, validate} from "./validate.ts";
+import {formatNumberForChart, formatNumberForTable} from "./validate.ts";
 
 type ChartProps = {
-    initialAmountString: string;
-    recurringAmountString: string;
-    growthString: string;
-    yearCountString: string;
+    valuesByYear: number[];
+    yearCount: number;
 };
 
-function Chart({ initialAmountString, recurringAmountString, growthString, yearCountString }: ChartProps) {
-    const initialAmount = parseFloat(initialAmountString);
-    const recurringAmount = parseFloat(recurringAmountString);
-    const growth = parseFloat(growthString);
-    const yearCount = parseInt(yearCountString);
-
-    const valid = validate(initialAmount, recurringAmount, growth, yearCount);
-    const valuesByYear = valid ? calculate(initialAmount, recurringAmount, growth / 100, yearCount) : null;
-
-    return valid && (
+function Chart({ valuesByYear, yearCount }: ChartProps) {
+    return (
         <LineChart
             series={[{
                 data: valuesByYear!.map(value => isFinite(value) ? value : null),
