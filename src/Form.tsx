@@ -1,7 +1,9 @@
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Unstable_Grid2';
+import {useContext} from "react";
 import {NumericFormat} from "react-number-format";
+import {CurrencyContext} from "./App.tsx";
 import {validateGrowth, validateInitialAmount, validateRecurringAmount, validateYearCount} from "./validate.ts";
 
 type FormProps = {
@@ -48,6 +50,8 @@ function Form({
                   setGrowthString,
                   setYearCountString,
               }: FormProps) {
+    const currency = useContext(CurrencyContext);
+
     const initialAmount = parseFloat(initialAmountString);
     const recurringAmount = parseFloat(recurringAmountString);
     const growth = parseFloat(growthString);
@@ -67,7 +71,7 @@ function Form({
                     onChange={event => setInitialAmountString(event.target.value)}
                     name="initialAmount"
                     InputProps={{
-                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                        startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
                         inputComponent: NumberFormatCustom,
                     }}
                     variant="outlined"
@@ -83,7 +87,7 @@ function Form({
                     onChange={event => setRecurringAmountString(event.target.value)}
                     name="recurringAmount"
                     InputProps={{
-                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                        startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
                         inputComponent: NumberFormatCustom,
                     }}
                     variant="outlined"

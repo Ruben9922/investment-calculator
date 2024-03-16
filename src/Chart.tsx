@@ -1,4 +1,6 @@
 import {LineChart} from "@mui/x-charts";
+import {useContext} from "react";
+import {CurrencyContext} from "./App.tsx";
 import {formatNumberForChart, formatNumberForTable} from "./validate.ts";
 import YearData from "./yearData.ts";
 
@@ -7,6 +9,8 @@ type ChartProps = {
 };
 
 function Chart({ yearsData }: ChartProps) {
+    const currency = useContext(CurrencyContext);
+
     const seriesValueFormatter = (value: number | null) => value === null
         ? "An incomprehensible amount of money 💰🤯"
         : formatNumberForTable(value);
@@ -16,7 +20,7 @@ function Chart({ yearsData }: ChartProps) {
             data: yearsData
                 .map(yearData => yearData.principal)
                 .map(principal => isFinite(principal) ? principal : null),
-            label: "Principal ($)",
+            label: `Principal (${currency})`,
             showMark: false,
             valueFormatter: seriesValueFormatter,
         },
@@ -24,7 +28,7 @@ function Chart({ yearsData }: ChartProps) {
             data: yearsData
                 .map(yearData => yearData.profit)
                 .map(profit => isFinite(profit) ? profit : null),
-            label: "Profit ($)",
+            label: `Profit (${currency})`,
             showMark: false,
             valueFormatter: seriesValueFormatter,
         },
@@ -32,7 +36,7 @@ function Chart({ yearsData }: ChartProps) {
             data: yearsData
                 .map(yearData => yearData.totalValue)
                 .map(totalValue => isFinite(totalValue) ? totalValue : null),
-            label: "Total Value ($)",
+            label: `Total Value (${currency})`,
             showMark: false,
             valueFormatter: seriesValueFormatter,
         }
