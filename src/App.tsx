@@ -27,7 +27,7 @@ function App() {
     const yearCount = parseInt(yearCountString);
 
     const valid = validate(initialAmount, recurringAmount, growth, yearCount);
-    const valuesByYear = valid ? calculate(initialAmount, recurringAmount, growth / 100, yearCount) : null;
+    const yearsData = valid ? calculate(initialAmount, recurringAmount, growth / 100, yearCount) : null;
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -102,8 +102,8 @@ function App() {
 
                     {valid ? (
                         <>
-                            <Chart valuesByYear={valuesByYear!} yearCount={yearCount} />
-                            <Table valuesByYear={valuesByYear!} />
+                            <Chart yearsData={yearsData!} />
+                            <Table yearsData={yearsData!} />
                         </>
                     ) : (
                         <Alert severity="error">

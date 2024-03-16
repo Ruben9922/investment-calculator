@@ -6,12 +6,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {formatNumberForTable} from "./validate.ts";
+import YearData from "./yearData.ts";
 
 type TableProps = {
-    valuesByYear: number[];
+    yearsData: YearData[];
 };
 
-function Table({ valuesByYear }: TableProps) {
+function Table({ yearsData }: TableProps) {
     return (
         <TableContainer component={Paper}>
             <MuiTable size="small" aria-label="table containing values for each year">
@@ -22,13 +23,13 @@ function Table({ valuesByYear }: TableProps) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {valuesByYear.map((value, index) => (
-                        <TableRow key={index}>
+                    {yearsData.map((yearData) => (
+                        <TableRow key={yearData.year}>
                             <TableCell component="th" scope="row">
-                                {`Year ${index}`}
+                                {`Year ${yearData.year}`}
                             </TableCell>
                             <TableCell align="right">
-                                {formatNumberForTable(value)}
+                                {formatNumberForTable(yearData.totalValue)}
                             </TableCell>
                         </TableRow>
                     ))}

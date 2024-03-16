@@ -1,16 +1,18 @@
 import {LineChart} from "@mui/x-charts";
 import {formatNumberForChart, formatNumberForTable} from "./validate.ts";
+import YearData from "./yearData.ts";
 
 type ChartProps = {
-    valuesByYear: number[];
-    yearCount: number;
+    yearsData: YearData[];
 };
 
-function Chart({ valuesByYear, yearCount }: ChartProps) {
+function Chart({ yearsData }: ChartProps) {
     return (
         <LineChart
             series={[{
-                data: valuesByYear!.map(value => isFinite(value) ? value : null),
+                data: yearsData
+                    .map(yearData => yearData.totalValue)
+                    .map(totalValue => isFinite(totalValue) ? totalValue : null),
                 label: "Value ($)",
                 showMark: false,
                 valueFormatter: (value: number | null) => value === null ? "An incomprehensible amount of money 💰🤯" : formatNumberForTable(value),
@@ -18,7 +20,7 @@ function Chart({ valuesByYear, yearCount }: ChartProps) {
             height={400}
             yAxis={[{ valueFormatter: (value: number) => formatNumberForChart(value) }]}
             margin={{ left: 65 }}
-            xAxis={[{ label: "Year", data: Array.from(new Array(yearCount + 1), (_, i) => i) }]}
+            xAxis={[{ label: "Year", data: yearsData.map(yearData => yearData.year) }]}
         />
     );
 }

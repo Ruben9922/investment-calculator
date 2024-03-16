@@ -1,16 +1,18 @@
-export function calculate(initialAmount: number, recurringAmount: number, growth: number, yearCount: number): number[] {
+import YearData from "./yearData.ts";
+
+export function calculate(initialAmount: number, recurringAmount: number, growth: number, yearCount: number): YearData[] {
     const multiplier = 1 + growth;
     const monthlyMultiplier = multiplier ** (1 / 12);
 
-    const valuesByYear: number[] = [];
-    valuesByYear.push(initialAmount);
-    for (let i = 1; i <= yearCount; i++) {
-        let value = valuesByYear[i - 1];
+    const yearsData: YearData[] = [];
+    yearsData.push({ year: 0, totalValue: initialAmount });
+    for (let year = 1; year <= yearCount; year++) {
+        let totalValue = yearsData[year - 1].totalValue;
         for (let j = 0; j < 12; j++) {
-            value += recurringAmount;
-            value *= monthlyMultiplier;
+            totalValue += recurringAmount;
+            totalValue *= monthlyMultiplier;
         }
-        valuesByYear.push(value);
+        yearsData.push({ year: year, totalValue });
     }
-    return valuesByYear;
+    return yearsData;
 }
