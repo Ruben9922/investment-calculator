@@ -19,7 +19,9 @@ function Table({ yearsData }: TableProps) {
                 <TableHead>
                     <TableRow>
                         <TableCell>Year</TableCell>
-                        <TableCell align="right">Value ($)</TableCell>
+                        <TableCell align="right">Principal ($)</TableCell>
+                        <TableCell align="right">Profit ($)</TableCell>
+                        <TableCell align="right">Total Value ($)</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -27,6 +29,12 @@ function Table({ yearsData }: TableProps) {
                         <TableRow key={yearData.year}>
                             <TableCell component="th" scope="row">
                                 {`Year ${yearData.year}`}
+                            </TableCell>
+                            <TableCell align="right">
+                                {formatNumberForTable(yearData.principal)}
+                            </TableCell>
+                            <TableCell align="right">
+                                {formatNumberForTable(yearData.profit)}
                             </TableCell>
                             <TableCell align="right">
                                 {formatNumberForTable(yearData.totalValue)}
