@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {useContext} from "react";
 import {CurrencyContext} from "./App.tsx";
+import {calculateProfitPercent} from "./calculate.ts";
 import {formatNumberForTable, formatProfitPercent} from "./validate.ts";
 import YearData from "./yearData.ts";
 
@@ -53,7 +54,7 @@ function Table({ yearsData }: TableProps) {
                             </TableCell>
                             <TableCell align="right">
                                 <span style={{ color: getProfitPercentColor(yearData) }}>
-                                    {formatProfitPercent(yearData.profit / yearData.principal, yearData.profit)}
+                                    {formatProfitPercent(calculateProfitPercent(yearData), yearData.profit)}
                                 </span>
                             </TableCell>
                             <TableCell align="right">

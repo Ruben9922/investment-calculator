@@ -1,6 +1,7 @@
 import {LineChart} from "@mui/x-charts";
 import {useContext} from "react";
 import {CurrencyContext} from "./App.tsx";
+import {calculateProfitPercent} from "./calculate.ts";
 import {formatNumberForChart, formatNumberForTable, formatProfitPercent} from "./validate.ts";
 import YearData from "./yearData.ts";
 
@@ -31,7 +32,7 @@ function Chart({ yearsData }: ChartProps) {
                 const yearData = yearsData[dataIndex];
                 return v === null
                     ? seriesValueFormatter(v)
-                    : (`${seriesValueFormatter(v)} (${formatProfitPercent(yearData.profit / yearData.principal, yearData.profit)})`);
+                    : (`${seriesValueFormatter(v)} (${formatProfitPercent(calculateProfitPercent(yearData), yearData.profit)})`);
             },
         },
         {

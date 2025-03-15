@@ -31,3 +31,7 @@ export function calculate(
     }
     return yearsData;
 }
+
+export function calculateProfitPercent(yearData: YearData): number {
+    return yearData.principal ? yearData.profit / yearData.principal : 0;
+}
