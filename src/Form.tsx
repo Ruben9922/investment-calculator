@@ -8,11 +8,13 @@ import {validateGrowth, validateInitialAmount, validateRecurringAmount, validate
 
 type FormProps = {
     initialAmountString: string;
-    recurringAmountString: string;
+    monthlyAmountString: string;
+    yearlyAmountString: string;
     growthString: string;
     yearCountString: string;
     setInitialAmountString: (updatedInitialAmountString: string) => void;
-    setRecurringAmountString: (updatedRecurringAmountString: string) => void;
+    setMonthlyAmountString: (updatedMonthlyAmountString: string) => void;
+    setYearlyAmountString: (updatedYearlyAmountString: string) => void;
     setGrowthString: (updatedGrowthString: string) => void;
     setYearCountString: (updatedYearCountString: string) => void;
 };
@@ -42,23 +44,27 @@ function NumberFormatCustom(props: any) {
 
 function Form({
                   initialAmountString,
-                  recurringAmountString,
+                  monthlyAmountString,
+                  yearlyAmountString,
                   growthString,
                   yearCountString,
                   setInitialAmountString,
-                  setRecurringAmountString,
+                  setMonthlyAmountString,
+                  setYearlyAmountString,
                   setGrowthString,
                   setYearCountString,
               }: FormProps) {
     const currency = useContext(CurrencyContext);
 
     const initialAmount = parseFloat(initialAmountString);
-    const recurringAmount = parseFloat(recurringAmountString);
+    const monthlyAmount = parseFloat(monthlyAmountString);
+    const yearlyAmount = parseFloat(yearlyAmountString);
     const growth = parseFloat(growthString);
     const yearCount = parseInt(yearCountString);
 
     const initialAmountErrorMessage = validateInitialAmount(initialAmount);
-    const recurringAmountErrorMessage = validateRecurringAmount(recurringAmount);
+    const monthlyAmountErrorMessage = validateRecurringAmount(monthlyAmount);
+    const yearlyAmountErrorMessage = validateRecurringAmount(yearlyAmount);
     const growthErrorMessage = validateGrowth(growth);
     const yearCountErrorMessage = validateYearCount(yearCount);
 
@@ -80,23 +86,39 @@ function Form({
                     helperText={initialAmountErrorMessage}
                 />
             </Grid>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={2.5}>
                 <TextField
                     label="Monthly amount"
-                    value={recurringAmountString}
-                    onChange={event => setRecurringAmountString(event.target.value)}
-                    name="recurringAmount"
+                    value={monthlyAmountString}
+                    onChange={event => setMonthlyAmountString(event.target.value)}
+                    name="monthlyAmount"
                     InputProps={{
                         startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
                         inputComponent: NumberFormatCustom,
                     }}
                     variant="outlined"
                     fullWidth
-                    error={!!recurringAmountErrorMessage}
-                    helperText={recurringAmountErrorMessage}
+                    error={!!monthlyAmountErrorMessage}
+                    helperText={monthlyAmountErrorMessage}
                 />
             </Grid>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={2.5}>
+                <TextField
+                    label="Yearly amount"
+                    value={yearlyAmountString}
+                    onChange={event => setYearlyAmountString(event.target.value)}
+                    name="yearlyAmount"
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
+                        inputComponent: NumberFormatCustom,
+                    }}
+                    variant="outlined"
+                    fullWidth
+                    error={!!yearlyAmountErrorMessage}
+                    helperText={yearlyAmountErrorMessage}
+                />
+            </Grid>
+            <Grid xs={12} sm={6} md={2}>
                 <TextField
                     label="Annual growth"
                     value={growthString}
@@ -112,7 +134,7 @@ function Form({
                     helperText={growthErrorMessage}
                 />
             </Grid>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid xs={12} sm={6} md={2}>
                 <TextField
                     label="Years"
                     value={yearCountString}

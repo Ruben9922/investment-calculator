@@ -56,9 +56,16 @@ export function validateYearCount(yearCount: number): string | null {
     return validateNumber(yearCount, 1, 100);
 }
 
-export function validate(initialAmount: number, recurringAmount: number, growth: number, yearCount: number): boolean {
+export function validate(
+    initialAmount: number,
+    monthlyAmount: number,
+    yearlyAmount: number,
+    growth: number,
+    yearCount: number,
+): boolean {
     return !validateInitialAmount(initialAmount)
-        && !validateRecurringAmount(recurringAmount)
+        && !validateRecurringAmount(monthlyAmount)
+        && !validateRecurringAmount(yearlyAmount)
         && !validateGrowth(growth)
         && !validateYearCount(yearCount);
 }

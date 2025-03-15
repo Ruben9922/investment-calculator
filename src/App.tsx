@@ -46,18 +46,20 @@ function App() {
     useEffect(() => { void getCurrency(); }, []);
 
     const [initialAmountString, setInitialAmountString] = useState("20000");
-    const [recurringAmountString, setRecurringAmountString] = useState("500");
+    const [monthlyAmountString, setMonthlyAmountString] = useState("500");
+    const [yearlyAmountString, setYearlyAmountString] = useState("0");
     const [growthString, setGrowthString] = useState("10");
     const [yearCountString, setYearCountString] = useState("50");
     const [isAlertShown, setIsAlertShown] = useState(true);
 
     const initialAmount = parseFloat(initialAmountString);
-    const recurringAmount = parseFloat(recurringAmountString);
+    const monthlyAmount = parseFloat(monthlyAmountString);
+    const yearlyAmount = parseFloat(yearlyAmountString);
     const growth = parseFloat(growthString);
     const yearCount = parseInt(yearCountString);
 
-    const valid = validate(initialAmount, recurringAmount, growth, yearCount);
-    const yearsData = valid ? calculate(initialAmount, recurringAmount, growth / 100, yearCount) : null;
+    const valid = validate(initialAmount, monthlyAmount, yearlyAmount, growth, yearCount);
+    const yearsData = valid ? calculate(initialAmount, monthlyAmount, yearlyAmount, growth / 100, yearCount) : null;
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -128,11 +130,13 @@ function App() {
 
                             <Form
                                 initialAmountString={initialAmountString}
-                                recurringAmountString={recurringAmountString}
+                                monthlyAmountString={monthlyAmountString}
+                                yearlyAmountString={yearlyAmountString}
                                 growthString={growthString}
                                 yearCountString={yearCountString}
                                 setInitialAmountString={setInitialAmountString}
-                                setRecurringAmountString={setRecurringAmountString}
+                                setMonthlyAmountString={setMonthlyAmountString}
+                                setYearlyAmountString={setYearlyAmountString}
                                 setGrowthString={setGrowthString}
                                 setYearCountString={setYearCountString}
                             />
