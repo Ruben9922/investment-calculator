@@ -5,6 +5,7 @@ import {blue, grey, pink} from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from '@mui/material/Stack';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
+import Typography from "@mui/material/Typography";
 import {createContext, useEffect, useMemo, useState} from "react";
 import useDarkMode from "use-dark-mode";
 import {useFetch} from "use-http";
@@ -128,18 +129,24 @@ function App() {
                                 </Alert>
                             )}
 
-                            <Form
-                                initialAmountString={initialAmountString}
-                                monthlyAmountString={monthlyAmountString}
-                                yearlyAmountString={yearlyAmountString}
-                                growthString={growthString}
-                                yearCountString={yearCountString}
-                                setInitialAmountString={setInitialAmountString}
-                                setMonthlyAmountString={setMonthlyAmountString}
-                                setYearlyAmountString={setYearlyAmountString}
-                                setGrowthString={setGrowthString}
-                                setYearCountString={setYearCountString}
-                            />
+                            <Stack spacing={2}>
+                                <Form
+                                    initialAmountString={initialAmountString}
+                                    monthlyAmountString={monthlyAmountString}
+                                    yearlyAmountString={yearlyAmountString}
+                                    growthString={growthString}
+                                    yearCountString={yearCountString}
+                                    setInitialAmountString={setInitialAmountString}
+                                    setMonthlyAmountString={setMonthlyAmountString}
+                                    setYearlyAmountString={setYearlyAmountString}
+                                    setGrowthString={setGrowthString}
+                                    setYearCountString={setYearCountString}
+                                />
+
+                                <Typography align="center" variant="body2">
+                                    Growth is compounding and calculated monthly, based on the annual growth specified.
+                                </Typography>
+                            </Stack>
 
                             {valid ? (
                                 <>
