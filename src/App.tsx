@@ -43,7 +43,7 @@ function App() {
         setCurrency(updatedCurrency);
     };
 
-    useEffect(() => { getCurrency(); }, []);
+    useEffect(() => { void getCurrency(); }, []);
 
     const [initialAmountString, setInitialAmountString] = useState("20000");
     const [recurringAmountString, setRecurringAmountString] = useState("500");
