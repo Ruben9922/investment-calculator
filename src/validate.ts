@@ -41,15 +41,15 @@ function validateNumber(value: number, min: number, max: number): string | null 
 }
 
 export function validateInitialAmount(initialAmount: number): string | null {
-    return validateNumber(initialAmount, 1, 1_000_000_000_000)
+    return validateNumber(initialAmount, 0, 1_000_000_000_000)
 }
 
 export function validateRecurringAmount(recurringAmount: number): string | null {
-    return validateNumber(recurringAmount, 1, 1_000_000_000_000)
+    return validateNumber(recurringAmount, 0, 1_000_000_000_000)
 }
 
 export function validateGrowth(growth: number): string | null {
-    return validateNumber(growth, 1, 1_000_000);
+    return validateNumber(growth, -100, 1_000_000);
 }
 
 export function validateYearCount(yearCount: number): string | null {
