@@ -1,6 +1,6 @@
+import Grid from '@mui/material/Grid2';
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Unstable_Grid2';
 import {useContext} from "react";
 import {NumericFormat} from "react-number-format";
 import {CurrencyContext} from "./App.tsx";
@@ -18,29 +18,6 @@ type FormProps = {
     setGrowthString: (updatedGrowthString: string) => void;
     setYearCountString: (updatedYearCountString: string) => void;
 };
-
-// fixme: replace any with proper type
-function NumberFormatCustom(props: any) {
-    const {inputRef, onChange, ...other} = props;
-
-    return (
-        <NumericFormat
-            {...other}
-            getInputRef={inputRef}
-            onValueChange={(values) => {
-                onChange({
-                    target: {
-                        name: props.name,
-                        value: values.value,
-                    },
-                });
-            }}
-            thousandSeparator
-            valueIsNumericString
-            decimalScale={0}
-        />
-    );
-}
 
 function Form({
                   initialAmountString,
@@ -70,80 +47,97 @@ function Form({
 
     return (
         <Grid container spacing={2}>
-            <Grid xs={12} sm={6} md={3}>
-                <TextField
+            <Grid size={{ xs: 12, sm: 6, md: 3}}>
+                <NumericFormat
                     label="Initial amount"
                     value={initialAmountString}
-                    onChange={event => setInitialAmountString(event.target.value)}
+                    customInput={TextField}
+                    onValueChange={values => setInitialAmountString(values.value)}
+                    thousandSeparator
+                    valueIsNumericString
+                    decimalScale={0}
+
                     name="initialAmount"
-                    InputProps={{
-                        startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
-                        inputComponent: NumberFormatCustom,
+                    slotProps={{
+                        input: {
+                            startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
+                        }
                     }}
-                    variant="outlined"
                     fullWidth
                     error={!!initialAmountErrorMessage}
                     helperText={initialAmountErrorMessage}
                 />
             </Grid>
-            <Grid xs={12} sm={6} md={2.5}>
-                <TextField
+            <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
+                <NumericFormat
                     label="Monthly amount"
                     value={monthlyAmountString}
-                    onChange={event => setMonthlyAmountString(event.target.value)}
+                    customInput={TextField}
+                    onValueChange={values => setMonthlyAmountString(values.value)}
+                    thousandSeparator
+                    valueIsNumericString
+                    decimalScale={0}
+
                     name="monthlyAmount"
-                    InputProps={{
-                        startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
-                        inputComponent: NumberFormatCustom,
+                    slotProps={{
+                        input: {
+                            startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
+                        }
                     }}
-                    variant="outlined"
                     fullWidth
                     error={!!monthlyAmountErrorMessage}
                     helperText={monthlyAmountErrorMessage}
                 />
             </Grid>
-            <Grid xs={12} sm={6} md={2.5}>
-                <TextField
+            <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
+                <NumericFormat
                     label="Yearly amount"
                     value={yearlyAmountString}
-                    onChange={event => setYearlyAmountString(event.target.value)}
+                    customInput={TextField}
+                    onValueChange={values => setYearlyAmountString(values.value)}
+                    thousandSeparator
+                    valueIsNumericString
+                    decimalScale={0}
+
                     name="yearlyAmount"
-                    InputProps={{
-                        startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
-                        inputComponent: NumberFormatCustom,
+                    slotProps={{
+                        input: {
+                            startAdornment: <InputAdornment position="start">{currency}</InputAdornment>,
+                        }
                     }}
-                    variant="outlined"
                     fullWidth
                     error={!!yearlyAmountErrorMessage}
                     helperText={yearlyAmountErrorMessage}
                 />
             </Grid>
-            <Grid xs={12} sm={6} md={2}>
-                <TextField
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+                <NumericFormat
                     label="Annual growth"
                     value={growthString}
-                    onChange={event => setGrowthString(event.target.value)}
+                    customInput={TextField}
+                    onValueChange={values => setGrowthString(values.value)}
+                    thousandSeparator
+                    valueIsNumericString
+                    decimalScale={0}
+
                     name="growth"
-                    InputProps={{
-                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                        inputComponent: NumberFormatCustom,
-                    }}
-                    variant="outlined"
+                    slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
                     error={!!growthErrorMessage}
                     helperText={growthErrorMessage}
                 />
             </Grid>
-            <Grid xs={12} sm={6} md={2}>
-                <TextField
+            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+                <NumericFormat
                     label="Years"
                     value={yearCountString}
-                    onChange={event => setYearCountString(event.target.value)}
+                    customInput={TextField}
+                    onValueChange={values => setYearCountString(values.value)}
+                    thousandSeparator
+                    valueIsNumericString
+                    decimalScale={0}
+
                     name="yearCount"
-                    InputProps={{
-                        inputComponent: NumberFormatCustom,
-                    }}
-                    variant="outlined"
                     fullWidth
                     error={!!yearCountErrorMessage}
                     helperText={yearCountErrorMessage}

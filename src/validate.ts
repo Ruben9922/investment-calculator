@@ -27,6 +27,19 @@ export function formatNumberForChart(value: number): string {
         : value.toLocaleString(undefined, { maximumFractionDigits: 0 });
 }
 
+export function formatProfitPercent(profitPercent: number, profit: number) {
+    return profit >= 1_000_000_000_000_000
+        ? "+" + profitPercent.toExponential(3)
+            .replace("e", " × 10^")
+            .replace("+", "") + " %"
+        : profitPercent.toLocaleString(undefined, {
+            style: "percent",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            signDisplay: "always",
+        });
+}
+
 function validateNumber(value: number, min: number, max: number): string | null {
     if (isNaN(value)) {
         // Value can only be `NaN` if text field is empty

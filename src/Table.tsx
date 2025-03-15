@@ -1,3 +1,4 @@
+import {useTheme} from "@mui/material";
 import Paper from '@mui/material/Paper';
 import MuiTable from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {useContext} from "react";
 import {CurrencyContext} from "./App.tsx";
-import {formatNumberForTable} from "./validate.ts";
+import {formatNumberForTable, formatProfitPercent} from "./validate.ts";
 import YearData from "./yearData.ts";
 
 type TableProps = {
@@ -16,6 +17,15 @@ type TableProps = {
 
 function Table({ yearsData }: TableProps) {
     const currency = useContext(CurrencyContext);
+    const theme = useTheme();
+
+    const getProfitPercentColor = (yearData: YearData): string | undefined => {
+        if (yearData.profit === 0) {
+            return undefined;
+        }
+
+        return yearData.profit > 0 ? theme.palette.success.main : theme.palette.error.main;
+    };
 
     return (
         <TableContainer component={Paper}>
@@ -25,6 +35,7 @@ function Table({ yearsData }: TableProps) {
                         <TableCell>Year</TableCell>
                         <TableCell align="right">Principal ({currency})</TableCell>
                         <TableCell align="right">Profit ({currency})</TableCell>
+                        <TableCell align="right">Profit (%)</TableCell>
                         <TableCell align="right">Total Value ({currency})</TableCell>
                     </TableRow>
                 </TableHead>
@@ -39,6 +50,11 @@ function Table({ yearsData }: TableProps) {
                             </TableCell>
                             <TableCell align="right">
                                 {formatNumberForTable(yearData.profit)}
+                            </TableCell>
+                            <TableCell align="right">
+                                <span style={{ color: getProfitPercentColor(yearData) }}>
+                                    {formatProfitPercent(yearData.profit / yearData.principal, yearData.profit)}
+                                </span>
                             </TableCell>
                             <TableCell align="right">
                                 {formatNumberForTable(yearData.totalValue)}

@@ -1,7 +1,7 @@
 import {LineChart} from "@mui/x-charts";
 import {useContext} from "react";
 import {CurrencyContext} from "./App.tsx";
-import {formatNumberForChart, formatNumberForTable} from "./validate.ts";
+import {formatNumberForChart, formatNumberForTable, formatProfitPercent} from "./validate.ts";
 import YearData from "./yearData.ts";
 
 type ChartProps = {
@@ -11,7 +11,7 @@ type ChartProps = {
 function Chart({ yearsData }: ChartProps) {
     const currency = useContext(CurrencyContext);
 
-    const seriesValueFormatter = (value: number | null) => value === null
+    const seriesValueFormatter = (value: number | null): string => value === null
         ? "An incomprehensible amount of money 💰🤯"
         : formatNumberForTable(value);
 
@@ -21,30 +21,34 @@ function Chart({ yearsData }: ChartProps) {
                 .map(yearData => yearData.principal)
                 .map(principal => isFinite(principal) ? principal : null),
             label: `Principal (${currency})`,
-            showMark: false,
-            valueFormatter: seriesValueFormatter,
         },
         {
             data: yearsData
                 .map(yearData => yearData.profit)
                 .map(profit => isFinite(profit) ? profit : null),
             label: `Profit (${currency})`,
-            showMark: false,
-            valueFormatter: seriesValueFormatter,
+            valueFormatter: (v: number | null, { dataIndex }: { dataIndex: number }) => {
+                const yearData = yearsData[dataIndex];
+                return v === null
+                    ? seriesValueFormatter(v)
+                    : (`${seriesValueFormatter(v)} (${formatProfitPercent(yearData.profit / yearData.principal, yearData.profit)})`);
+            },
         },
         {
             data: yearsData
                 .map(yearData => yearData.totalValue)
                 .map(totalValue => isFinite(totalValue) ? totalValue : null),
             label: `Total Value (${currency})`,
-            showMark: false,
-            valueFormatter: seriesValueFormatter,
         }
     ];
 
     return (
         <LineChart
-            series={series}
+            series={series.map(series => ({
+                showMark: false,
+                valueFormatter: seriesValueFormatter,
+                ...series,
+            }))}
             height={400}
             yAxis={[{ valueFormatter: (value: number) => formatNumberForChart(value) }]}
             margin={{ left: 65 }}
