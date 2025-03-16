@@ -1,15 +1,15 @@
 import {LineChart} from "@mui/x-charts";
 import {useContext} from "react";
-import {CurrencyContext} from "./App.tsx";
+import {CurrencyContext} from "../App.tsx";
 import {calculateProfitPercent} from "./calculate.ts";
-import {formatNumberForChart, formatNumberForTable, formatProfitPercent} from "./validate.ts";
-import YearData from "./yearData.ts";
+import {formatNumberForChart, formatNumberForTable, formatPercent} from "../validate.ts";
+import InvestmentYearData from "./investmentYearData.ts";
 
-type ChartProps = {
-    yearsData: YearData[];
+type InvestmentsChartProps = {
+    yearsData: InvestmentYearData[];
 };
 
-function Chart({ yearsData }: ChartProps) {
+function InvestmentsChart({ yearsData }: InvestmentsChartProps) {
     const currency = useContext(CurrencyContext);
 
     const seriesValueFormatter = (value: number | null): string => value === null
@@ -32,7 +32,7 @@ function Chart({ yearsData }: ChartProps) {
                 const yearData = yearsData[dataIndex];
                 return v === null
                     ? seriesValueFormatter(v)
-                    : (`${seriesValueFormatter(v)} (${formatProfitPercent(calculateProfitPercent(yearData), yearData.profit)})`);
+                    : (`${seriesValueFormatter(v)} (${formatPercent(calculateProfitPercent(yearData), yearData.profit)})`);
             },
         },
         {
@@ -58,4 +58,4 @@ function Chart({ yearsData }: ChartProps) {
     );
 }
 
-export default Chart;
+export default InvestmentsChart;

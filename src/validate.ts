@@ -1,3 +1,4 @@
+// todo move formatting to separate file as it's not validation-related
 function formatNumberForErrorMessage(value: number): string {
     return value >= 1_000_000
         ? value.toExponential()
@@ -27,12 +28,13 @@ export function formatNumberForChart(value: number): string {
         : value.toLocaleString(undefined, { maximumFractionDigits: 0 });
 }
 
-export function formatProfitPercent(profitPercent: number, profit: number) {
-    return profit >= 1_000_000_000_000_000
-        ? "+" + profitPercent.toExponential(3)
+// todo: maybe just use `value` and remove `thresholdValue`
+export function formatPercent(value: number, thresholdValue: number = value) {
+    return thresholdValue >= 1_000_000_000_000_000
+        ? "+" + value.toExponential(3)
             .replace("e", " × 10^")
             .replace("+", "") + " %"
-        : profitPercent.toLocaleString(undefined, {
+        : value.toLocaleString(undefined, {
             style: "percent",
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
@@ -65,10 +67,19 @@ export function validateGrowth(growth: number): string | null {
     return validateNumber(growth, -100, 1_000_000);
 }
 
+export function validateInterestRate(growth: number): string | null {
+    return validateNumber(growth, 0, 100);
+}
+
+export function validatePercentMin0Max100(growth: number): string | null {
+    return validateNumber(growth, 0, 100);
+}
+
 export function validateYearCount(yearCount: number): string | null {
     return validateNumber(yearCount, 1, 100);
 }
 
+// todo refactor this, it's basically duplicated in InvestmentsForm
 export function validate(
     initialAmount: number,
     monthlyAmount: number,
@@ -81,4 +92,27 @@ export function validate(
         && !validateRecurringAmount(yearlyAmount)
         && !validateGrowth(growth)
         && !validateYearCount(yearCount);
+}
+
+// todo refactor this, it's basically duplicated in MortgageForm
+export function validateMortgage(
+    borrowedAmount: number,
+    years: number,
+    monthlyRepayment: number,
+    monthlyOverpayment: number,
+    initialInterestRate: number,
+    initialInterestRateYears: number,
+    subsequentInterestRate: number,
+    overpaymentLimit: number,
+    overpaymentFee: number,
+): boolean {
+    return !validateInitialAmount(borrowedAmount)
+        && !validateYearCount(years)
+        && !validateRecurringAmount(monthlyRepayment)
+        && !validateRecurringAmount(monthlyOverpayment)
+        && !validateInterestRate(initialInterestRate)
+        && !validateYearCount(initialInterestRateYears)
+        && !validateInterestRate(subsequentInterestRate)
+        && !validatePercentMin0Max100(overpaymentLimit)
+        && !validatePercentMin0Max100(overpaymentFee);
 }

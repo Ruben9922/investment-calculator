@@ -1,24 +1,22 @@
-import {Backdrop, Box, CircularProgress, Container, useMediaQuery} from "@mui/material";
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import {Backdrop, Box, CircularProgress, Container, Tab, useMediaQuery} from "@mui/material";
 import {blue, grey, pink} from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
-import Stack from '@mui/material/Stack';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
-import Typography from "@mui/material/Typography";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {createContext, useEffect, useMemo, useState} from "react";
 import useDarkMode from "use-dark-mode";
 import {useFetch} from "use-http";
-import {calculate} from "./calculate.ts";
-import Chart from "./Chart.tsx";
-import Form from "./Form.tsx";
 import Header from "./Header.tsx";
-import Table from "./Table.tsx";
-import {validate} from "./validate.ts";
+import InvestmentsTab from "./investments/InvestmentsTab.tsx";
+import MortgagesTab from "./mortgages/MortgagesTab.tsx";
 
 type FetchCurrencyResult = {
     currencies: Record<string, { name: string, symbol: string }>;
 };
+
+type TabValue = "investments" | "mortgages";
 
 const defaultCurrency: string = "$";
 export const CurrencyContext = createContext(defaultCurrency);
@@ -44,23 +42,11 @@ function App() {
         setCurrency(updatedCurrency);
     };
 
+    // todo fix warning
     useEffect(() => { void getCurrency(); }, []);
 
-    const [initialAmountString, setInitialAmountString] = useState("20000");
-    const [monthlyAmountString, setMonthlyAmountString] = useState("500");
-    const [yearlyAmountString, setYearlyAmountString] = useState("0");
-    const [growthString, setGrowthString] = useState("10");
-    const [yearCountString, setYearCountString] = useState("50");
-    const [isAlertShown, setIsAlertShown] = useState(true);
-
-    const initialAmount = parseFloat(initialAmountString);
-    const monthlyAmount = parseFloat(monthlyAmountString);
-    const yearlyAmount = parseFloat(yearlyAmountString);
-    const growth = parseFloat(growthString);
-    const yearCount = parseInt(yearCountString);
-
-    const valid = validate(initialAmount, monthlyAmount, yearlyAmount, growth, yearCount);
-    const yearsData = valid ? calculate(initialAmount, monthlyAmount, yearlyAmount, growth / 100, yearCount) : null;
+    // todo add routing so selecting tab updates URL
+    const [selectedTab, setSelectedTab] = useState<TabValue>("investments");
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -121,45 +107,24 @@ function App() {
             ) : (
                 <CurrencyContext.Provider value={currency}>
                     <Container maxWidth="md" component={Box} padding={4}>
-                        <Stack spacing={4}>
-                            {isAlertShown && (
-                                <Alert severity="warning" onClose={() => setIsAlertShown(false)}>
-                                    <AlertTitle>Disclaimer</AlertTitle>
-                                    This is for indicative purposes only and should not be used as the basis for any investment decision. The data shown is purely hypothetical, based on the parameters entered, and does not necessarily reflect real-world investing. It does not take into account inflation, taxes, fees or other factors that may affect the value of your investment. I do not make any guarantees regarding the accuracy of the data shown.
-                                </Alert>
-                            )}
-
-                            <Stack spacing={2}>
-                                <Form
-                                    initialAmountString={initialAmountString}
-                                    monthlyAmountString={monthlyAmountString}
-                                    yearlyAmountString={yearlyAmountString}
-                                    growthString={growthString}
-                                    yearCountString={yearCountString}
-                                    setInitialAmountString={setInitialAmountString}
-                                    setMonthlyAmountString={setMonthlyAmountString}
-                                    setYearlyAmountString={setYearlyAmountString}
-                                    setGrowthString={setGrowthString}
-                                    setYearCountString={setYearCountString}
-                                />
-
-                                <Typography align="center" variant="body2">
-                                    Growth is compounding and calculated monthly, based on the annual growth specified.
-                                </Typography>
-                            </Stack>
-
-                            {valid ? (
-                                <>
-                                    <Chart yearsData={yearsData!} />
-                                    <Table yearsData={yearsData!} />
-                                </>
-                            ) : (
-                                <Alert severity="error">
-                                    <AlertTitle>Invalid input</AlertTitle>
-                                    Please fix the errors and try again.
-                                </Alert>
-                            )}
-                        </Stack>
+                        <TabContext value={selectedTab}>
+                            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                                <TabList
+                                    onChange={(_, value) => setSelectedTab(value)}
+                                    aria-label="Investment calculator / mortgage calculator tabs"
+                                >
+                                    <Tab label="Investments" value="investments" />
+                                    <Tab label="Mortgages" value="mortgages" />
+                                </TabList>
+                            </Box>
+                            <TabPanel value="investments">
+                                {/*    todo remove default tabpanel padding*/}
+                                <InvestmentsTab />
+                            </TabPanel>
+                            <TabPanel value="mortgages">
+                                <MortgagesTab />
+                            </TabPanel>
+                        </TabContext>
                     </Container>
                 </CurrencyContext.Provider>
             )}

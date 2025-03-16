@@ -7,20 +7,20 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {useContext} from "react";
-import {CurrencyContext} from "./App.tsx";
+import {CurrencyContext} from "../App.tsx";
 import {calculateProfitPercent} from "./calculate.ts";
-import {formatNumberForTable, formatProfitPercent} from "./validate.ts";
-import YearData from "./yearData.ts";
+import {formatNumberForTable, formatPercent} from "../validate.ts";
+import InvestmentYearData from "./investmentYearData.ts";
 
-type TableProps = {
-    yearsData: YearData[];
+type InvestmentsTableProps = {
+    yearsData: InvestmentYearData[];
 };
 
-function Table({ yearsData }: TableProps) {
+function InvestmentsTable({ yearsData }: InvestmentsTableProps) {
     const currency = useContext(CurrencyContext);
     const theme = useTheme();
 
-    const getProfitPercentColor = (yearData: YearData): string | undefined => {
+    const getProfitPercentColor = (yearData: InvestmentYearData): string | undefined => {
         if (yearData.profit === 0) {
             return undefined;
         }
@@ -54,7 +54,7 @@ function Table({ yearsData }: TableProps) {
                             </TableCell>
                             <TableCell align="right">
                                 <span style={{ color: getProfitPercentColor(yearData) }}>
-                                    {formatProfitPercent(calculateProfitPercent(yearData), yearData.profit)}
+                                    {formatPercent(calculateProfitPercent(yearData), yearData.profit)}
                                 </span>
                             </TableCell>
                             <TableCell align="right">
@@ -68,4 +68,4 @@ function Table({ yearsData }: TableProps) {
     );
 }
 
-export default Table;
+export default InvestmentsTable;

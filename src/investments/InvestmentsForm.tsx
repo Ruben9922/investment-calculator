@@ -1,12 +1,12 @@
-import Grid from '@mui/material/Grid2';
+import Grid from "@mui/material/Grid2";
 import InputAdornment from "@mui/material/InputAdornment";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import {useContext} from "react";
 import {NumericFormat} from "react-number-format";
-import {CurrencyContext} from "./App.tsx";
-import {validateGrowth, validateInitialAmount, validateRecurringAmount, validateYearCount} from "./validate.ts";
+import {CurrencyContext} from "../App.tsx";
+import {validateGrowth, validateInitialAmount, validateRecurringAmount, validateYearCount} from "../validate.ts";
 
-type FormProps = {
+type InvestmentsFormProps = {
     initialAmountString: string;
     monthlyAmountString: string;
     yearlyAmountString: string;
@@ -19,7 +19,7 @@ type FormProps = {
     setYearCountString: (updatedYearCountString: string) => void;
 };
 
-function Form({
+function InvestmentsForm({
                   initialAmountString,
                   monthlyAmountString,
                   yearlyAmountString,
@@ -30,7 +30,7 @@ function Form({
                   setYearlyAmountString,
                   setGrowthString,
                   setYearCountString,
-              }: FormProps) {
+              }: InvestmentsFormProps) {
     const currency = useContext(CurrencyContext);
 
     const initialAmount = parseFloat(initialAmountString);
@@ -147,4 +147,4 @@ function Form({
     );
 }
 
-export default Form;
+export default InvestmentsForm;
