@@ -51,24 +51,24 @@ function App() {
     const [investmentsFormData, setInvestmentsFormData] = useImmer(initialInvestmentsFormData);
     const [mortgagesFormData, setMortgagesFormData] = useImmer(initialMortgagesFormData);
 
-    const getCurrency = async () => {
-        const currentCountryAlpha2Code = navigator.language.split("-")[1]?.toLowerCase() ?? "";
-        const fetchCurrencyResult = await get(`/v3.1/alpha/${encodeURIComponent(currentCountryAlpha2Code)}/?fields=currencies`);
+    useEffect(() => {
+        (async () => {
+            const currentCountryAlpha2Code = navigator.language.split("-")[1]?.toLowerCase() ?? "";
+            const fetchCurrencyResult = await get(`/v3.1/alpha/${encodeURIComponent(currentCountryAlpha2Code)}/?fields=currencies`);
 
-        if (!response.ok) {
-            return;
-        }
+            if (!response.ok) {
+                return;
+            }
 
-        let updatedCurrency: string;
-        if (!fetchCurrencyResult || !fetchCurrencyResult.currencies || Object.values(fetchCurrencyResult.currencies).length < 1) {
-            updatedCurrency = defaultCurrency;
-        } else {
-            updatedCurrency = Object.values(fetchCurrencyResult.currencies)[0].symbol || defaultCurrency;
-        }
-        setCurrency(updatedCurrency);
-    };
-
-    useEffect(() => { void getCurrency(); }, [getCurrency]);
+            let updatedCurrency: string;
+            if (!fetchCurrencyResult || !fetchCurrencyResult.currencies || Object.values(fetchCurrencyResult.currencies).length < 1) {
+                updatedCurrency = defaultCurrency;
+            } else {
+                updatedCurrency = Object.values(fetchCurrencyResult.currencies)[0].symbol || defaultCurrency;
+            }
+            setCurrency(updatedCurrency);
+        })();
+    }, [get, response.ok]);
 
     // todo add routing so selecting tab updates URL
     const [selectedTab, setSelectedTab] = useState<TabValue>("investments");
