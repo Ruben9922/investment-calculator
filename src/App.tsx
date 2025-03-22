@@ -68,7 +68,6 @@ function App() {
         setCurrency(updatedCurrency);
     };
 
-    // todo fix warning
     useEffect(() => { void getCurrency(); }, [getCurrency]);
 
     // todo add routing so selecting tab updates URL
