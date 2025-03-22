@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {CurrencyContext} from "../App.tsx";
 import {calculateProfitPercent} from "./calculate.ts";
 import {formatNumberForChart, formatNumberForTable, formatPercent} from "../validate.ts";
-import InvestmentYearData from "./investmentYearData.ts";
+import {InvestmentYearData} from "./models.ts";
 
 type InvestmentsChartProps = {
     yearsData: InvestmentYearData[];

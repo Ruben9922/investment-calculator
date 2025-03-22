@@ -4,13 +4,13 @@ import {Updater} from "use-immer";
 import InvalidInputAlert from "../InvalidInputAlert.tsx";
 import {validateMortgage} from "../validate.ts";
 import {calculate} from "./calculate.ts";
-import {MortgageFormData} from "./models.ts";
+import {MortgagesFormData} from "./models.ts";
 import MortgagesForm from "./MortgagesForm.tsx";
 import MortgagesTable from "./MortgagesTable.tsx";
 
 type MortgagesTabProps = {
-    mortgageFormData: MortgageFormData;
-    setMortgageFormData: Updater<MortgageFormData>;
+    mortgageFormData: MortgagesFormData;
+    setMortgageFormData: Updater<MortgagesFormData>;
 };
 
 function MortgagesTab({ mortgageFormData, setMortgageFormData }: MortgagesTabProps) {

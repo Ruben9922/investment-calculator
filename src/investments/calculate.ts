@@ -1,4 +1,4 @@
-import InvestmentYearData from "./investmentYearData.ts";
+import {InvestmentYearData} from "./models.ts";
 
 export function calculate(
     initialAmount: number,

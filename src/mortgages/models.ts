@@ -8,7 +8,7 @@ export type MortgageYearData = {
     overpaymentFees: number;
 };
 
-export type MortgageFormData = {
+export type MortgagesFormData = {
     borrowedAmountString: string;
     yearsString: string;
     monthlyRepaymentString: string;

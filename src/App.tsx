@@ -11,7 +11,8 @@ import {useFetch} from "use-http";
 import {useImmer} from "use-immer";
 import Header from "./Header.tsx";
 import InvestmentsTab from "./investments/InvestmentsTab.tsx";
-import {MortgageFormData} from "./mortgages/models.ts";
+import {InvestmentsFormData} from "./investments/models.ts";
+import {MortgagesFormData} from "./mortgages/models.ts";
 import MortgagesTab from "./mortgages/MortgagesTab.tsx";
 
 type FetchCurrencyResult = {
@@ -23,7 +24,15 @@ type TabValue = "investments" | "mortgages";
 const defaultCurrency: string = "$";
 export const CurrencyContext = createContext(defaultCurrency);
 
-const initialMortgageFormData: MortgageFormData = {
+const initialInvestmentsFormData: InvestmentsFormData = {
+    initialAmountString: "20000",
+    monthlyAmountString: "500",
+    yearlyAmountString: "0",
+    growthString: "10",
+    yearCountString: "50",
+}
+
+const initialMortgagesFormData: MortgagesFormData = {
     borrowedAmountString: "",
     yearsString: "",
     monthlyRepaymentString: "",
@@ -39,7 +48,8 @@ function App() {
     const { loading, get, response } = useFetch<FetchCurrencyResult>("https://restcountries.com", {}, []);
     const [currency, setCurrency] = useState(defaultCurrency);
 
-    const [mortgageFormData, setMortgageFormData] = useImmer(initialMortgageFormData);
+    const [investmentsFormData, setInvestmentsFormData] = useImmer(initialInvestmentsFormData);
+    const [mortgagesFormData, setMortgagesFormData] = useImmer(initialMortgagesFormData);
 
     const getCurrency = async () => {
         const currentCountryAlpha2Code = navigator.language.split("-")[1]?.toLowerCase() ?? "";
@@ -135,12 +145,15 @@ function App() {
                             </Box>
                             <TabPanel value="investments">
                                 {/*    todo remove default tabpanel padding*/}
-                                <InvestmentsTab />
+                                <InvestmentsTab
+                                    investmentsFormData={investmentsFormData}
+                                    setInvestmentsFormData={setInvestmentsFormData}
+                                />
                             </TabPanel>
                             <TabPanel value="mortgages">
                                 <MortgagesTab
-                                    mortgageFormData={mortgageFormData}
-                                    setMortgageFormData={setMortgageFormData}
+                                    mortgageFormData={mortgagesFormData}
+                                    setMortgageFormData={setMortgagesFormData}
                                 />
                             </TabPanel>
                         </TabContext>

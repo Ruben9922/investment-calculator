@@ -3,27 +3,28 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import {useState} from "react";
+import {Updater} from "use-immer";
 import InvalidInputAlert from "../InvalidInputAlert.tsx";
 import {calculate} from "./calculate.ts";
 import {validate} from "../validate.ts";
 import InvestmentsChart from "./InvestmentsChart.tsx";
 import InvestmentsForm from "./InvestmentsForm.tsx";
 import InvestmentsTable from "./InvestmentsTable.tsx";
+import {InvestmentsFormData} from "./models.ts";
 
-function InvestmentsTab() {
-    // todo move state up to parent so it persists when switching tabs
-    const [initialAmountString, setInitialAmountString] = useState("20000");
-    const [monthlyAmountString, setMonthlyAmountString] = useState("500");
-    const [yearlyAmountString, setYearlyAmountString] = useState("0");
-    const [growthString, setGrowthString] = useState("10");
-    const [yearCountString, setYearCountString] = useState("50");
+type InvestmentsTabProps = {
+    investmentsFormData: InvestmentsFormData;
+    setInvestmentsFormData: Updater<InvestmentsFormData>;
+};
+
+function InvestmentsTab({ investmentsFormData, setInvestmentsFormData }: InvestmentsTabProps) {
     const [isAlertShown, setIsAlertShown] = useState(true);
 
-    const initialAmount = parseFloat(initialAmountString);
-    const monthlyAmount = parseFloat(monthlyAmountString);
-    const yearlyAmount = parseFloat(yearlyAmountString);
-    const growth = parseFloat(growthString);
-    const yearCount = parseInt(yearCountString);
+    const initialAmount = parseFloat(investmentsFormData.initialAmountString);
+    const monthlyAmount = parseFloat(investmentsFormData.monthlyAmountString);
+    const yearlyAmount = parseFloat(investmentsFormData.yearlyAmountString);
+    const growth = parseFloat(investmentsFormData.growthString);
+    const yearCount = parseInt(investmentsFormData.yearCountString);
 
     const valid = validate(initialAmount, monthlyAmount, yearlyAmount, growth, yearCount);
 
@@ -40,16 +41,16 @@ function InvestmentsTab() {
 
             <Stack spacing={2}>
                 <InvestmentsForm
-                    initialAmountString={initialAmountString}
-                    monthlyAmountString={monthlyAmountString}
-                    yearlyAmountString={yearlyAmountString}
-                    growthString={growthString}
-                    yearCountString={yearCountString}
-                    setInitialAmountString={setInitialAmountString}
-                    setMonthlyAmountString={setMonthlyAmountString}
-                    setYearlyAmountString={setYearlyAmountString}
-                    setGrowthString={setGrowthString}
-                    setYearCountString={setYearCountString}
+                    initialAmountString={investmentsFormData.initialAmountString}
+                    monthlyAmountString={investmentsFormData.monthlyAmountString}
+                    yearlyAmountString={investmentsFormData.yearlyAmountString}
+                    growthString={investmentsFormData.growthString}
+                    yearCountString={investmentsFormData.yearCountString}
+                    setInitialAmountString={v => setInvestmentsFormData(ifd => void (ifd.initialAmountString = v))}
+                    setMonthlyAmountString={v => setInvestmentsFormData(ifd => void (ifd.monthlyAmountString = v))}
+                    setYearlyAmountString={v => setInvestmentsFormData(ifd => void (ifd.yearlyAmountString = v))}
+                    setGrowthString={v => setInvestmentsFormData(ifd => void (ifd.growthString = v))}
+                    setYearCountString={v => setInvestmentsFormData(ifd => void (ifd.yearCountString = v))}
                 />
 
                 <Typography align="center" variant="body2">
