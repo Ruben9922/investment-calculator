@@ -1,11 +1,18 @@
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import {Backdrop, Box, CircularProgress, Container, Tab, useMediaQuery} from "@mui/material";
+import {Backdrop, Box, CircularProgress, Container, Popover, Tab, useMediaQuery} from "@mui/material";
+import Alert from "@mui/material/Alert";
 import {blue, grey, pink} from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {createContext, useEffect, useMemo, useState} from "react";
+import TextField from "@mui/material/TextField";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import React, {createContext, useEffect, useMemo, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import useDarkMode from "use-dark-mode";
 import {useFetch} from "use-http";
 import {useImmer} from "use-immer";
@@ -14,6 +21,8 @@ import InvestmentsTab from "./investments/InvestmentsTab.tsx";
 import {InvestmentsFormData} from "./investments/models.ts";
 import {MortgagesFormData} from "./mortgages/models.ts";
 import MortgagesTab from "./mortgages/MortgagesTab.tsx";
+import ShareIcon from "@mui/icons-material/Share";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 type FetchCurrencyResult = {
     currencies: Record<string, { name: string, symbol: string }>;
@@ -47,9 +56,55 @@ const initialMortgagesFormData: MortgagesFormData = {
 function App() {
     const { loading, get, response } = useFetch<FetchCurrencyResult>("https://restcountries.com", {}, []);
     const [currency, setCurrency] = useState(defaultCurrency);
+    const [selectedTab, setSelectedTab] = useState<TabValue>("investments");
+    const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLButtonElement | null>(null);
 
     const [investmentsFormData, setInvestmentsFormData] = useImmer(initialInvestmentsFormData);
     const [mortgagesFormData, setMortgagesFormData] = useImmer(initialMortgagesFormData);
+
+    const navigate = useNavigate();
+    const { pathname, search } = useLocation();
+    const query = useMemo(() => new URLSearchParams(search), [search]);
+
+    useEffect(() => {
+        switch (pathname) {
+            case "/investments": {
+                setSelectedTab("investments");
+                // todo: maybe do this in a more elegant way
+                if (query.has("initialAmount") && query.has("monthlyAmount") && query.has("yearlyAmount")
+                    && query.has("growth") && query.has("yearCount")) {
+                    setInvestmentsFormData({
+                        initialAmountString: query.get("initialAmount") ?? "",
+                        monthlyAmountString: query.get("monthlyAmount") ?? "",
+                        yearlyAmountString: query.get("yearlyAmount") ?? "",
+                        growthString: query.get("growth") ?? "",
+                        yearCountString: query.get("yearCount") ?? "",
+                    });
+                }
+                break;
+            }
+            case "/mortgages": {
+                setSelectedTab("mortgages");
+                // todo: maybe do this in a more elegant way
+                if (query.has("borrowedAmount") && query.has("years") && query.has("monthlyRepayment")
+                    && query.has("monthlyOverpayment") && query.has("initialInterestRate")
+                    && query.has("initialInterestRateYears") && query.has("subsequentInterestRate")
+                    && query.has("overpaymentLimit") && query.has("overpaymentFee"))
+                setMortgagesFormData({
+                    borrowedAmountString: query.get("borrowedAmount") ?? "",
+                    yearsString: query.get("years") ?? "",
+                    monthlyRepaymentString: query.get("monthlyRepayment") ?? "",
+                    monthlyOverpaymentString: query.get("monthlyOverpayment") ?? "",
+                    initialInterestRateString: query.get("initialInterestRate") ?? "",
+                    initialInterestRateYearsString: query.get("initialInterestRateYears") ?? "",
+                    subsequentInterestRateString: query.get("subsequentInterestRate") ?? "",
+                    overpaymentLimitString: query.get("overpaymentLimit") ?? "",
+                    overpaymentFeeString: query.get("overpaymentFee") ?? "",
+                });
+                break;
+            }
+        }
+    }, [pathname, query, setInvestmentsFormData, setMortgagesFormData]);
 
     useEffect(() => {
         (async () => {
@@ -69,9 +124,6 @@ function App() {
             setCurrency(updatedCurrency);
         })();
     }, [get, response.ok]);
-
-    // todo add routing so selecting tab updates URL
-    const [selectedTab, setSelectedTab] = useState<TabValue>("investments");
 
     const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -120,6 +172,28 @@ function App() {
         [darkMode.value],
     );
 
+    const handlePopoverClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setPopoverAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setPopoverAnchorEl(null);
+    };
+
+    const popoverOpen = Boolean(popoverAnchorEl);
+    const popoverId = popoverOpen ? "simple-popover" : undefined;
+
+    const constructShareUrl = (): string => {
+        let paramsObj: Record<string, string> = selectedTab === "mortgages"
+            ? mortgagesFormData
+            : investmentsFormData;
+        // Remove "string" suffix from property names
+        paramsObj = Object.fromEntries(Object.entries(paramsObj).map(([k, v]) => [k.replace("String", ""), v]));
+        return `${window.location.origin}/projects/investment-calculator/${selectedTab}?${new URLSearchParams(paramsObj)}`;
+    };
+
+    const copyShareUrlToClipboard = (): void => void navigator.clipboard.writeText(constructShareUrl());
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline enableColorScheme />
@@ -133,15 +207,26 @@ function App() {
                 <CurrencyContext.Provider value={currency}>
                     <Container maxWidth="md" component={Box} padding={4}>
                         <TabContext value={selectedTab}>
-                            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                                <TabList
-                                    onChange={(_, value) => setSelectedTab(value)}
-                                    aria-label="Investment calculator / mortgage calculator tabs"
-                                >
-                                    <Tab label="Investments" value="investments" />
-                                    <Tab label="Mortgages" value="mortgages" />
-                                </TabList>
-                            </Box>
+                            <Stack direction="row">
+                                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                                    <TabList
+                                        onChange={(_, value) => navigate(`/${value}`)}
+                                        aria-label="Investment calculator / mortgage calculator tabs"
+                                    >
+                                        <Tab label="Investments" value="investments" />
+                                        <Tab label="Mortgages" value="mortgages" />
+                                    </TabList>
+                                </Box>
+                                <Tooltip title="Share">
+                                    <IconButton
+                                        aria-describedby={popoverId}
+                                        onClick={handlePopoverClick}
+                                        aria-label="share"
+                                    >
+                                        <ShareIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Stack>
                             <TabPanel value="investments">
                                 {/*    todo remove default tabpanel padding*/}
                                 <InvestmentsTab
@@ -156,6 +241,38 @@ function App() {
                                 />
                             </TabPanel>
                         </TabContext>
+                        <Popover
+                            id={popoverId}
+                            open={popoverOpen}
+                            anchorEl={popoverAnchorEl}
+                            onClose={handlePopoverClose}
+                            anchorOrigin={{
+                                vertical: "bottom",
+                                horizontal: "left",
+                            }}
+                        >
+                            <Stack paddingX={4} paddingY={3} spacing={2} maxWidth="500px">
+                                <Typography gutterBottom>
+                                    Copy a URL to share as a example or save for later.
+                                </Typography>
+                                <Stack direction="row">
+                                    <TextField
+                                        disabled
+                                        label="Share URL"
+                                        value={constructShareUrl()}
+                                    />
+                                    <Tooltip title="Copy URL">
+                                        <IconButton
+                                            onClick={copyShareUrlToClipboard}
+                                            aria-label="copy"
+                                        >
+                                            <ContentCopyIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Stack>
+                                <Alert severity="warning"><strong>Anyone with this URL can view all the values entered</strong>; this may be private info so be careful who you share this with!</Alert>
+                            </Stack>
+                        </Popover>
                     </Container>
                 </CurrencyContext.Provider>
             )}
