@@ -1,4 +1,4 @@
-import MortgageYearData from "./mortgageYearData.ts";
+import MortgageYearData from "./models.ts";
 
 // todo maybe put all these inputs into an object so it's easier to pass around
 export function calculate(

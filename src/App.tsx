@@ -8,8 +8,10 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {createContext, useEffect, useMemo, useState} from "react";
 import useDarkMode from "use-dark-mode";
 import {useFetch} from "use-http";
+import {useImmer} from "use-immer";
 import Header from "./Header.tsx";
 import InvestmentsTab from "./investments/InvestmentsTab.tsx";
+import {MortgageFormData} from "./mortgages/models.ts";
 import MortgagesTab from "./mortgages/MortgagesTab.tsx";
 
 type FetchCurrencyResult = {
@@ -21,9 +23,23 @@ type TabValue = "investments" | "mortgages";
 const defaultCurrency: string = "$";
 export const CurrencyContext = createContext(defaultCurrency);
 
+const initialMortgageFormData: MortgageFormData = {
+    borrowedAmountString: "",
+    yearsString: "",
+    monthlyRepaymentString: "",
+    monthlyOverpaymentString: "",
+    initialInterestRateString: "",
+    initialInterestRateYearsString: "",
+    subsequentInterestRateString: "",
+    overpaymentLimitString: "",
+    overpaymentFeeString: ""
+};
+
 function App() {
     const { loading, get, response } = useFetch<FetchCurrencyResult>("https://restcountries.com", {}, []);
     const [currency, setCurrency] = useState(defaultCurrency);
+
+    const [mortgageFormData, setMortgageFormData] = useImmer(initialMortgageFormData);
 
     const getCurrency = async () => {
         const currentCountryAlpha2Code = navigator.language.split("-")[1]?.toLowerCase() ?? "";
@@ -122,7 +138,10 @@ function App() {
                                 <InvestmentsTab />
                             </TabPanel>
                             <TabPanel value="mortgages">
-                                <MortgagesTab />
+                                <MortgagesTab
+                                    mortgageFormData={mortgageFormData}
+                                    setMortgageFormData={setMortgageFormData}
+                                />
                             </TabPanel>
                         </TabContext>
                     </Container>
