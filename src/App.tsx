@@ -69,7 +69,7 @@ function App() {
     };
 
     // todo fix warning
-    useEffect(() => { void getCurrency(); }, []);
+    useEffect(() => { void getCurrency(); }, [getCurrency]);
 
     // todo add routing so selecting tab updates URL
     const [selectedTab, setSelectedTab] = useState<TabValue>("investments");
@@ -118,7 +118,7 @@ function App() {
                 }),
             }
         }),
-    [darkMode.value],
+        [darkMode.value],
     );
 
     return (
