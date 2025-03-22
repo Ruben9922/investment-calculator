@@ -1,3 +1,5 @@
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ShareIcon from "@mui/icons-material/Share";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -21,8 +23,6 @@ import InvestmentsTab from "./investments/InvestmentsTab.tsx";
 import {InvestmentsFormData} from "./investments/models.ts";
 import {MortgagesFormData} from "./mortgages/models.ts";
 import MortgagesTab from "./mortgages/MortgagesTab.tsx";
-import ShareIcon from "@mui/icons-material/Share";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 type FetchCurrencyResult = {
     currencies: Record<string, { name: string, symbol: string }>;
@@ -253,7 +253,7 @@ function App() {
                         >
                             <Stack paddingX={4} paddingY={3} spacing={2} maxWidth="500px">
                                 <Typography gutterBottom>
-                                    Copy a URL to share as a example or save for later.
+                                    Copy a URL to share as an example or save for later.
                                 </Typography>
                                 <Stack direction="row">
                                     <TextField
