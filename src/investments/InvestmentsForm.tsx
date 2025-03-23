@@ -69,7 +69,7 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     }}
                     fullWidth
                     error={dirty.initialAmountString && !!errorMessages.initialAmountString}
-                    helperText={errorMessages.initialAmountString}
+                    helperText={dirty.initialAmountString && errorMessages.initialAmountString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
@@ -90,7 +90,7 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     }}
                     fullWidth
                     error={dirty.monthlyAmountString && !!errorMessages.monthlyAmountString}
-                    helperText={errorMessages.monthlyAmountString}
+                    helperText={dirty.monthlyAmountString && errorMessages.monthlyAmountString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
@@ -111,7 +111,7 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     }}
                     fullWidth
                     error={dirty.yearlyAmountString && !!errorMessages.yearlyAmountString}
-                    helperText={errorMessages.yearlyAmountString}
+                    helperText={dirty.yearlyAmountString && errorMessages.yearlyAmountString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
@@ -128,7 +128,7 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
                     error={dirty.growthString && !!errorMessages.growthString}
-                    helperText={errorMessages.growthString}
+                    helperText={dirty.growthString && errorMessages.growthString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
@@ -144,7 +144,7 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     name="yearCount"
                     fullWidth
                     error={dirty.yearCountString && !!errorMessages.yearCountString}
-                    helperText={errorMessages.yearCountString}
+                    helperText={dirty.yearCountString && errorMessages.yearCountString}
                 />
             </Grid>
         </Grid>

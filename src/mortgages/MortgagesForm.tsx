@@ -81,7 +81,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     }}
                     fullWidth
                     error={dirty.borrowedAmountString && !!errorMessages.borrowedAmountString}
-                    helperText={errorMessages.borrowedAmountString}
+                    helperText={dirty.borrowedAmountString && errorMessages.borrowedAmountString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4 }}>
@@ -97,7 +97,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     name="years"
                     fullWidth
                     error={dirty.yearsString && !!errorMessages.yearsString}
-                    helperText={errorMessages.yearsString}
+                    helperText={dirty.yearsString && errorMessages.yearsString}
                 />
             </Grid>
             {/* todo allow decimal interest rates (2 d.p.) */}
@@ -115,7 +115,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
                     error={dirty.interestRateString && !!errorMessages.interestRateString}
-                    helperText={errorMessages.interestRateString}
+                    helperText={dirty.interestRateString && errorMessages.interestRateString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
@@ -136,7 +136,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     }}
                     fullWidth
                     error={dirty.monthlyRepaymentString && !!errorMessages.monthlyRepaymentString}
-                    helperText={errorMessages.monthlyRepaymentString}
+                    helperText={dirty.monthlyRepaymentString && errorMessages.monthlyRepaymentString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
@@ -157,7 +157,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     }}
                     fullWidth
                     error={dirty.monthlyOverpaymentString && !!errorMessages.monthlyOverpaymentString}
-                    helperText={errorMessages.monthlyOverpaymentString}
+                    helperText={dirty.monthlyOverpaymentString && errorMessages.monthlyOverpaymentString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
@@ -174,7 +174,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
                     error={dirty.overpaymentLimitString && !!errorMessages.overpaymentLimitString}
-                    helperText={errorMessages.overpaymentLimitString}
+                    helperText={dirty.overpaymentLimitString && errorMessages.overpaymentLimitString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
@@ -191,7 +191,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
                     error={dirty.overpaymentFeeString && !!errorMessages.overpaymentFeeString}
-                    helperText={errorMessages.overpaymentFeeString}
+                    helperText={dirty.overpaymentFeeString && errorMessages.overpaymentFeeString}
                 />
             </Grid>
         </Grid>
