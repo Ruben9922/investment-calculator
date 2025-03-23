@@ -28,15 +28,15 @@ export function formatNumberForChart(value: number): string {
 }
 
 // todo: maybe just use `value` and remove `thresholdValue`
-export function formatPercent(value: number, thresholdValue: number = value) {
+export function formatPercent(value: number, alwaysDisplaySign: boolean, thresholdValue: number = value) {
     return thresholdValue >= 1_000_000_000_000_000
-        ? "+" + value.toExponential(3)
+        ? (alwaysDisplaySign ? "+" : "") + value.toExponential(3)
         .replace("e", " × 10^")
         .replace("+", "") + " %"
         : value.toLocaleString(undefined, {
             style: "percent",
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-            signDisplay: "always",
+            signDisplay: alwaysDisplaySign ? "always" : undefined,
         });
 }

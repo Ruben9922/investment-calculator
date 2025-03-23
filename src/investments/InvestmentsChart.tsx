@@ -32,7 +32,7 @@ function InvestmentsChart({ yearsData }: InvestmentsChartProps) {
                 const yearData = yearsData[dataIndex];
                 return v === null
                     ? seriesValueFormatter(v)
-                    : (`${seriesValueFormatter(v)} (${formatPercent(calculateProfitPercent(yearData), yearData.profit)})`);
+                    : (`${seriesValueFormatter(v)} (${formatPercent(calculateProfitPercent(yearData), true, yearData.profit)})`);
             },
         },
         {

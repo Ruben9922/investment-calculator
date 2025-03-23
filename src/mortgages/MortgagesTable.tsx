@@ -44,9 +44,8 @@ function MortgagesTable({ yearsData }: MortgagesTableProps) {
                             <TableCell align="right">
                                 {formatNumberForTable(yearData.interest)}
                             </TableCell>
-                            {/* todo format without + symbol */}
                             <TableCell align="right">
-                                {formatPercent(yearData.interestRate)}
+                                {formatPercent(yearData.interestRate, false)}
                             </TableCell>
                             {/* todo */}
                             {/*<TableCell align="right">*/}

@@ -54,7 +54,7 @@ function InvestmentsTable({ yearsData }: InvestmentsTableProps) {
                             </TableCell>
                             <TableCell align="right">
                                 <span style={{ color: getProfitPercentColor(yearData) }}>
-                                    {formatPercent(calculateProfitPercent(yearData), yearData.profit)}
+                                    {formatPercent(calculateProfitPercent(yearData), true, yearData.profit)}
                                 </span>
                             </TableCell>
                             <TableCell align="right">
