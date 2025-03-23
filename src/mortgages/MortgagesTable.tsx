@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import {useContext} from "react";
 import {CurrencyContext} from "../App.tsx";
-import {formatNumberForTable, formatPercent} from "../validate.ts";
+import {formatNumberForTable, formatPercent} from "../formatting.ts";
 import {MortgageYearData} from "./models.ts";
 
 type MortgagesTableProps = {

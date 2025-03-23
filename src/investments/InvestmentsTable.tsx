@@ -8,8 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {useContext} from "react";
 import {CurrencyContext} from "../App.tsx";
+import {formatNumberForTable, formatPercent} from "../formatting.ts";
 import {calculateProfitPercent} from "./calculate.ts";
-import {formatNumberForTable, formatPercent} from "../validate.ts";
 import {InvestmentYearData} from "./models.ts";
 
 type InvestmentsTableProps = {

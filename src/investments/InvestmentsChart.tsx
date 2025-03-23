@@ -1,8 +1,8 @@
 import {LineChart} from "@mui/x-charts";
 import {useContext} from "react";
 import {CurrencyContext} from "../App.tsx";
+import {formatNumberForChart, formatNumberForTable, formatPercent} from "../formatting.ts";
 import {calculateProfitPercent} from "./calculate.ts";
-import {formatNumberForChart, formatNumberForTable, formatPercent} from "../validate.ts";
 import {InvestmentYearData} from "./models.ts";
 
 type InvestmentsChartProps = {
