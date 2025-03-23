@@ -14,7 +14,6 @@ export function calculate({
         year: 0,
         capital: borrowedAmount,
         interest: 0,
-        interestRate: 0,
         outstandingValue: borrowedAmount,
         repaid: 0,
         overpaymentFees: 0,
@@ -49,7 +48,7 @@ export function calculate({
             ? (yearlyOverpayment - (overpaymentLimit * totalValue)) * overpaymentFee
             : 0;
 
-        yearsData.push({ year, capital, interest, interestRate, outstandingValue: totalValue, repaid, overpaymentFees });
+        yearsData.push({ year, capital, interest, outstandingValue: totalValue, repaid, overpaymentFees });
     }
     return yearsData;
 }
