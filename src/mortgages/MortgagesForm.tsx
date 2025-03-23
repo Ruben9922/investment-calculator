@@ -63,7 +63,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
 
     return (
         <Grid container spacing={2}>
-            <Grid size={{ xs: 12, sm: 6, md: 3}}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                 <NumericFormat
                     label="Borrowed amount"
                     value={mortgageFormData.borrowedAmountString}
@@ -84,7 +84,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     helperText={errorMessages.borrowedAmountString}
                 />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                 <NumericFormat
                     label="Years"
                     value={mortgageFormData.yearsString}
@@ -100,7 +100,25 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     helperText={errorMessages.yearsString}
                 />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
+            {/* todo allow decimal interest rates (2 d.p.) */}
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <NumericFormat
+                    label="Interest rate"
+                    value={mortgageFormData.interestRateString}
+                    customInput={TextField}
+                    onValueChange={onValueChange("interestRateString")}
+                    thousandSeparator
+                    valueIsNumericString
+                    decimalScale={0}
+
+                    name="interestRate"
+                    slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
+                    fullWidth
+                    error={dirty.interestRateString && !!errorMessages.interestRateString}
+                    helperText={errorMessages.interestRateString}
+                />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <NumericFormat
                     label="Monthly repayment"
                     value={mortgageFormData.monthlyRepaymentString}
@@ -121,7 +139,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     helperText={errorMessages.monthlyRepaymentString}
                 />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <NumericFormat
                     label="Monthly overpayment"
                     value={mortgageFormData.monthlyOverpaymentString}
@@ -142,25 +160,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     helperText={errorMessages.monthlyOverpaymentString}
                 />
             </Grid>
-            {/* todo allow decimal interest rates (2 d.p.) */}
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
-                <NumericFormat
-                    label="Interest rate"
-                    value={mortgageFormData.interestRateString}
-                    customInput={TextField}
-                    onValueChange={onValueChange("interestRateString")}
-                    thousandSeparator
-                    valueIsNumericString
-                    decimalScale={0}
-
-                    name="interestRate"
-                    slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
-                    fullWidth
-                    error={dirty.interestRateString && !!errorMessages.interestRateString}
-                    helperText={errorMessages.interestRateString}
-                />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <NumericFormat
                     label="Overpayment limit"
                     value={mortgageFormData.overpaymentLimitString}
@@ -177,7 +177,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     helperText={errorMessages.overpaymentLimitString}
                 />
             </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <NumericFormat
                     label="Overpayment fee"
                     value={mortgageFormData.overpaymentFeeString}
