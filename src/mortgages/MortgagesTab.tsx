@@ -46,22 +46,7 @@ function MortgagesTab({ mortgageFormData, setMortgageFormData }: MortgagesTabPro
     return (
         <Stack spacing={4}>
             <Stack spacing={2}>
-                <MortgagesForm
-                    borrowedAmountString={mortgageFormData.borrowedAmountString}
-                    yearsString={mortgageFormData.yearsString}
-                    monthlyRepaymentString={mortgageFormData.monthlyRepaymentString}
-                    monthlyOverpaymentString={mortgageFormData.monthlyOverpaymentString}
-                    interestRateString={mortgageFormData.interestRateString}
-                    overpaymentLimitString={mortgageFormData.overpaymentLimitString}
-                    overpaymentFeeString={mortgageFormData.overpaymentFeeString}
-                    setBorrowedAmountString={v => setMortgageFormData(mfd => void (mfd.borrowedAmountString = v))}
-                    setYearsString={v => setMortgageFormData(mfd => void (mfd.yearsString = v))}
-                    setMonthlyRepaymentString={v => setMortgageFormData(mfd => void (mfd.monthlyRepaymentString = v))}
-                    setMonthlyOverpaymentString={v => setMortgageFormData(mfd => void (mfd.monthlyOverpaymentString = v))}
-                    setInterestRateString={v => setMortgageFormData(mfd => void (mfd.interestRateString = v))}
-                    setOverpaymentLimitString={v => setMortgageFormData(mfd => void (mfd.overpaymentLimitString = v))}
-                    setOverpaymentFeeString={v => setMortgageFormData(mfd => void (mfd.overpaymentFeeString = v))}
-                />
+                <MortgagesForm mortgageFormData={mortgageFormData} setMortgageFormData={setMortgageFormData} />
 
                 <Typography align="center" variant="body2">
                     Interest is compounding and calculated monthly, based on the annual interest rates specified.

@@ -47,16 +47,8 @@ function InvestmentsTab({ investmentsFormData, setInvestmentsFormData }: Investm
 
             <Stack spacing={2}>
                 <InvestmentsForm
-                    initialAmountString={investmentsFormData.initialAmountString}
-                    monthlyAmountString={investmentsFormData.monthlyAmountString}
-                    yearlyAmountString={investmentsFormData.yearlyAmountString}
-                    growthString={investmentsFormData.growthString}
-                    yearCountString={investmentsFormData.yearCountString}
-                    setInitialAmountString={v => setInvestmentsFormData(ifd => void (ifd.initialAmountString = v))}
-                    setMonthlyAmountString={v => setInvestmentsFormData(ifd => void (ifd.monthlyAmountString = v))}
-                    setYearlyAmountString={v => setInvestmentsFormData(ifd => void (ifd.yearlyAmountString = v))}
-                    setGrowthString={v => setInvestmentsFormData(ifd => void (ifd.growthString = v))}
-                    setYearCountString={v => setInvestmentsFormData(ifd => void (ifd.yearCountString = v))}
+                    investmentsFormData={investmentsFormData}
+                    setInvestmentsFormData={setInvestmentsFormData}
                 />
 
                 <Typography align="center" variant="body2">

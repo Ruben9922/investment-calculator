@@ -2,7 +2,8 @@ import Grid from "@mui/material/Grid2";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import {useContext} from "react";
-import {NumericFormat} from "react-number-format";
+import {NumberFormatValues, NumericFormat} from "react-number-format";
+import {Updater, useImmer} from "use-immer";
 import {CurrencyContext} from "../App.tsx";
 import {
     validateInitialAmount,
@@ -11,66 +12,63 @@ import {
     validateRecurringAmount,
     validateYearCount
 } from "../validate.ts";
+import {MortgagesFormData, MortgagesFormDataKeys, MortgagesInputs} from "./models.ts";
 
 type MortgagesFormProps = {
-    borrowedAmountString: string;
-    yearsString: string;
-    monthlyRepaymentString: string;
-    monthlyOverpaymentString: string;
-    interestRateString: string;
-    overpaymentLimitString: string;
-    overpaymentFeeString: string;
-    setBorrowedAmountString: (updatedBorrowedAmountString: string) => void;
-    setYearsString: (updatedYearsString: string) => void;
-    setMonthlyRepaymentString: (updatedMonthlyRepaymentString: string) => void;
-    setMonthlyOverpaymentString: (updatedMonthlyOverpaymentString: string) => void;
-    setInterestRateString: (updatedInterestRateString: string) => void;
-    setOverpaymentLimitString: (updatedOverpaymentLimitString: string) => void;
-    setOverpaymentFeeString: (updatedOverpaymentFeeString: string) => void;
+    mortgageFormData: MortgagesFormData;
+    setMortgageFormData: Updater<MortgagesFormData>;
 };
 
-function MortgagesForm({
-    borrowedAmountString,
-    yearsString,
-    monthlyRepaymentString,
-    monthlyOverpaymentString,
-    interestRateString,
-    overpaymentLimitString,
-    overpaymentFeeString,
-    setBorrowedAmountString,
-    setYearsString,
-    setMonthlyRepaymentString,
-    setMonthlyOverpaymentString,
-    setInterestRateString,
-    setOverpaymentLimitString,
-    setOverpaymentFeeString,
-}: MortgagesFormProps) {
+const initialDirty: Record<MortgagesFormDataKeys, boolean> = {
+    borrowedAmountString: false,
+    yearsString: false,
+    monthlyRepaymentString: false,
+    monthlyOverpaymentString: false,
+    interestRateString: false,
+    overpaymentLimitString: false,
+    overpaymentFeeString: false,
+}
+
+function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormProps) {
     const currency = useContext(CurrencyContext);
 
-    const borrowedAmount = parseFloat(borrowedAmountString);
-    const years = parseInt(yearsString);
-    const monthlyRepayment = parseFloat(monthlyRepaymentString);
-    const monthlyOverpayment = parseFloat(monthlyOverpaymentString);
-    const interestRate = parseFloat(interestRateString);
-    const overpaymentLimit = parseFloat(overpaymentLimitString);
-    const overpaymentFee = parseFloat(overpaymentFeeString);
+    const [dirty, setDirty] = useImmer(initialDirty);
 
-    const borrowedAmountErrorMessage = validateInitialAmount(borrowedAmount);
-    const yearsErrorMessage = validateYearCount(years);
-    const monthlyRepaymentErrorMessage = validateRecurringAmount(monthlyRepayment);
-    const monthlyOverpaymentErrorMessage = validateRecurringAmount(monthlyOverpayment);
-    const interestRateErrorMessage = validateInterestRate(interestRate);
-    const overpaymentLimitErrorMessage = validatePercentMin0Max100(overpaymentLimit);
-    const overpaymentFeeErrorMessage = validatePercentMin0Max100(overpaymentFee);
+    const values: MortgagesInputs = {
+        borrowedAmount: parseFloat(mortgageFormData.borrowedAmountString),
+        years: parseInt(mortgageFormData.yearsString),
+        monthlyRepayment: parseFloat(mortgageFormData.monthlyRepaymentString),
+        monthlyOverpayment: parseFloat(mortgageFormData.monthlyOverpaymentString),
+        interestRate: parseFloat(mortgageFormData.interestRateString),
+        overpaymentLimit: parseFloat(mortgageFormData.overpaymentLimitString),
+        overpaymentFee: parseFloat(mortgageFormData.overpaymentFeeString),
+    };
+
+    const errorMessages: Record<MortgagesFormDataKeys, string | null> = {
+        borrowedAmountString: validateInitialAmount(values.borrowedAmount),
+        yearsString: validateYearCount(values.years),
+        monthlyRepaymentString: validateRecurringAmount(values.monthlyRepayment),
+        monthlyOverpaymentString: validateRecurringAmount(values.monthlyOverpayment),
+        interestRateString: validateInterestRate(values.interestRate),
+        overpaymentLimitString: validatePercentMin0Max100(values.overpaymentLimit),
+        overpaymentFeeString: validatePercentMin0Max100(values.overpaymentFee),
+    };
+
+    const set = (key: MortgagesFormDataKeys, updatedValue: string) => {
+        setMortgageFormData(mfd => void (mfd[key] = updatedValue));
+        setDirty(d => void (d[key] = true));
+    };
+
+    const onValueChange = (key: MortgagesFormDataKeys) => (values: NumberFormatValues) => set(key, values.value);
 
     return (
         <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6, md: 3}}>
                 <NumericFormat
                     label="Borrowed amount"
-                    value={borrowedAmountString}
+                    value={mortgageFormData.borrowedAmountString}
                     customInput={TextField}
-                    onValueChange={values => setBorrowedAmountString(values.value)}
+                    onValueChange={onValueChange("borrowedAmountString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -82,32 +80,32 @@ function MortgagesForm({
                         }
                     }}
                     fullWidth
-                    error={!!borrowedAmountErrorMessage}
-                    helperText={borrowedAmountErrorMessage}
+                    error={dirty.borrowedAmountString && !!errorMessages.borrowedAmountString}
+                    helperText={errorMessages.borrowedAmountString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <NumericFormat
                     label="Years"
-                    value={yearsString}
+                    value={mortgageFormData.yearsString}
                     customInput={TextField}
-                    onValueChange={values => setYearsString(values.value)}
+                    onValueChange={onValueChange("yearsString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
 
                     name="years"
                     fullWidth
-                    error={!!yearsErrorMessage}
-                    helperText={yearsErrorMessage}
+                    error={dirty.yearsString && !!errorMessages.yearsString}
+                    helperText={errorMessages.yearsString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
                 <NumericFormat
                     label="Monthly repayment"
-                    value={monthlyRepaymentString}
+                    value={mortgageFormData.monthlyRepaymentString}
                     customInput={TextField}
-                    onValueChange={values => setMonthlyRepaymentString(values.value)}
+                    onValueChange={onValueChange("monthlyRepaymentString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -119,16 +117,16 @@ function MortgagesForm({
                         }
                     }}
                     fullWidth
-                    error={!!monthlyRepaymentErrorMessage}
-                    helperText={monthlyRepaymentErrorMessage}
+                    error={dirty.monthlyRepaymentString && !!errorMessages.monthlyRepaymentString}
+                    helperText={errorMessages.monthlyRepaymentString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
                 <NumericFormat
                     label="Monthly overpayment"
-                    value={monthlyOverpaymentString}
+                    value={mortgageFormData.monthlyOverpaymentString}
                     customInput={TextField}
-                    onValueChange={values => setMonthlyOverpaymentString(values.value)}
+                    onValueChange={onValueChange("monthlyOverpaymentString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -140,17 +138,17 @@ function MortgagesForm({
                         }
                     }}
                     fullWidth
-                    error={!!monthlyOverpaymentErrorMessage}
-                    helperText={monthlyOverpaymentErrorMessage}
+                    error={dirty.monthlyOverpaymentString && !!errorMessages.monthlyOverpaymentString}
+                    helperText={errorMessages.monthlyOverpaymentString}
                 />
             </Grid>
             {/* todo allow decimal interest rates (2 d.p.) */}
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <NumericFormat
                     label="Interest rate"
-                    value={interestRateString}
+                    value={mortgageFormData.interestRateString}
                     customInput={TextField}
-                    onValueChange={values => setInterestRateString(values.value)}
+                    onValueChange={onValueChange("interestRateString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -158,16 +156,16 @@ function MortgagesForm({
                     name="interestRate"
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
-                    error={!!interestRateErrorMessage}
-                    helperText={interestRateErrorMessage}
+                    error={dirty.interestRateString && !!errorMessages.interestRateString}
+                    helperText={errorMessages.interestRateString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <NumericFormat
                     label="Overpayment limit"
-                    value={overpaymentLimitString}
+                    value={mortgageFormData.overpaymentLimitString}
                     customInput={TextField}
-                    onValueChange={values => setOverpaymentLimitString(values.value)}
+                    onValueChange={onValueChange("overpaymentLimitString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -175,16 +173,16 @@ function MortgagesForm({
                     name="overpaymentLimit"
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
-                    error={!!overpaymentLimitErrorMessage}
-                    helperText={overpaymentLimitErrorMessage}
+                    error={dirty.overpaymentLimitString && !!errorMessages.overpaymentLimitString}
+                    helperText={errorMessages.overpaymentLimitString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <NumericFormat
                     label="Overpayment fee"
-                    value={overpaymentFeeString}
+                    value={mortgageFormData.overpaymentFeeString}
                     customInput={TextField}
-                    onValueChange={values => setOverpaymentFeeString(values.value)}
+                    onValueChange={onValueChange("overpaymentFeeString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -192,8 +190,8 @@ function MortgagesForm({
                     name="overpaymentFee"
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
-                    error={!!overpaymentFeeErrorMessage}
-                    helperText={overpaymentFeeErrorMessage}
+                    error={dirty.overpaymentFeeString && !!errorMessages.overpaymentFeeString}
+                    helperText={errorMessages.overpaymentFeeString}
                 />
             </Grid>
         </Grid>

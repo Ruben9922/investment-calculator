@@ -2,57 +2,61 @@ import Grid from "@mui/material/Grid2";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import {useContext} from "react";
-import {NumericFormat} from "react-number-format";
+import {NumberFormatValues, NumericFormat} from "react-number-format";
+import {Updater, useImmer} from "use-immer";
 import {CurrencyContext} from "../App.tsx";
 import {validateGrowth, validateInitialAmount, validateRecurringAmount, validateYearCount} from "../validate.ts";
+import {InvestmentsFormData, InvestmentsFormDataKeys, InvestmentsInputs} from "./models.ts";
 
 type InvestmentsFormProps = {
-    initialAmountString: string;
-    monthlyAmountString: string;
-    yearlyAmountString: string;
-    growthString: string;
-    yearCountString: string;
-    setInitialAmountString: (updatedInitialAmountString: string) => void;
-    setMonthlyAmountString: (updatedMonthlyAmountString: string) => void;
-    setYearlyAmountString: (updatedYearlyAmountString: string) => void;
-    setGrowthString: (updatedGrowthString: string) => void;
-    setYearCountString: (updatedYearCountString: string) => void;
+    investmentsFormData: InvestmentsFormData;
+    setInvestmentsFormData: Updater<InvestmentsFormData>;
 };
 
-function InvestmentsForm({
-                  initialAmountString,
-                  monthlyAmountString,
-                  yearlyAmountString,
-                  growthString,
-                  yearCountString,
-                  setInitialAmountString,
-                  setMonthlyAmountString,
-                  setYearlyAmountString,
-                  setGrowthString,
-                  setYearCountString,
-              }: InvestmentsFormProps) {
+const initialDirty: Record<InvestmentsFormDataKeys, boolean> = {
+    initialAmountString: false,
+    monthlyAmountString: false,
+    yearlyAmountString: false,
+    growthString: false,
+    yearCountString: false,
+};
+
+function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: InvestmentsFormProps) {
     const currency = useContext(CurrencyContext);
 
-    const initialAmount = parseFloat(initialAmountString);
-    const monthlyAmount = parseFloat(monthlyAmountString);
-    const yearlyAmount = parseFloat(yearlyAmountString);
-    const growth = parseFloat(growthString);
-    const yearCount = parseInt(yearCountString);
+    const [dirty, setDirty] = useImmer(initialDirty);
 
-    const initialAmountErrorMessage = validateInitialAmount(initialAmount);
-    const monthlyAmountErrorMessage = validateRecurringAmount(monthlyAmount);
-    const yearlyAmountErrorMessage = validateRecurringAmount(yearlyAmount);
-    const growthErrorMessage = validateGrowth(growth);
-    const yearCountErrorMessage = validateYearCount(yearCount);
+    const values: InvestmentsInputs = {
+        initialAmount: parseFloat(investmentsFormData.initialAmountString),
+        monthlyAmount: parseFloat(investmentsFormData.monthlyAmountString),
+        yearlyAmount: parseFloat(investmentsFormData.yearlyAmountString),
+        growth: parseFloat(investmentsFormData.growthString),
+        yearCount: parseInt(investmentsFormData.yearCountString),
+    };
+
+    const errorMessages: Record<InvestmentsFormDataKeys, string | null> = {
+        initialAmountString: validateInitialAmount(values.initialAmount),
+        monthlyAmountString: validateRecurringAmount(values.monthlyAmount),
+        yearlyAmountString: validateRecurringAmount(values.yearlyAmount),
+        growthString: validateGrowth(values.growth),
+        yearCountString: validateYearCount(values.yearCount),
+    };
+
+    const set = (key: InvestmentsFormDataKeys, updatedValue: string) => {
+        setInvestmentsFormData(mfd => void (mfd[key] = updatedValue));
+        setDirty(d => void (d[key] = true));
+    };
+
+    const onValueChange = (key: InvestmentsFormDataKeys) => (values: NumberFormatValues) => set(key, values.value);
 
     return (
         <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6, md: 3}}>
                 <NumericFormat
                     label="Initial amount"
-                    value={initialAmountString}
+                    value={investmentsFormData.initialAmountString}
                     customInput={TextField}
-                    onValueChange={values => setInitialAmountString(values.value)}
+                    onValueChange={onValueChange("initialAmountString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -64,16 +68,16 @@ function InvestmentsForm({
                         }
                     }}
                     fullWidth
-                    error={!!initialAmountErrorMessage}
-                    helperText={initialAmountErrorMessage}
+                    error={dirty.initialAmountString && !!errorMessages.initialAmountString}
+                    helperText={errorMessages.initialAmountString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
                 <NumericFormat
                     label="Monthly amount"
-                    value={monthlyAmountString}
+                    value={investmentsFormData.monthlyAmountString}
                     customInput={TextField}
-                    onValueChange={values => setMonthlyAmountString(values.value)}
+                    onValueChange={onValueChange("monthlyAmountString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -85,16 +89,16 @@ function InvestmentsForm({
                         }
                     }}
                     fullWidth
-                    error={!!monthlyAmountErrorMessage}
-                    helperText={monthlyAmountErrorMessage}
+                    error={dirty.monthlyAmountString && !!errorMessages.monthlyAmountString}
+                    helperText={errorMessages.monthlyAmountString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
                 <NumericFormat
                     label="Yearly amount"
-                    value={yearlyAmountString}
+                    value={investmentsFormData.yearlyAmountString}
                     customInput={TextField}
-                    onValueChange={values => setYearlyAmountString(values.value)}
+                    onValueChange={onValueChange("yearlyAmountString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -106,16 +110,16 @@ function InvestmentsForm({
                         }
                     }}
                     fullWidth
-                    error={!!yearlyAmountErrorMessage}
-                    helperText={yearlyAmountErrorMessage}
+                    error={dirty.yearlyAmountString && !!errorMessages.yearlyAmountString}
+                    helperText={errorMessages.yearlyAmountString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <NumericFormat
                     label="Annual growth"
-                    value={growthString}
+                    value={investmentsFormData.growthString}
                     customInput={TextField}
-                    onValueChange={values => setGrowthString(values.value)}
+                    onValueChange={onValueChange("growthString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
@@ -123,24 +127,24 @@ function InvestmentsForm({
                     name="growth"
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
-                    error={!!growthErrorMessage}
-                    helperText={growthErrorMessage}
+                    error={dirty.growthString && !!errorMessages.growthString}
+                    helperText={errorMessages.growthString}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <NumericFormat
                     label="Years"
-                    value={yearCountString}
+                    value={investmentsFormData.yearCountString}
                     customInput={TextField}
-                    onValueChange={values => setYearCountString(values.value)}
+                    onValueChange={onValueChange("yearCountString")}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
 
                     name="yearCount"
                     fullWidth
-                    error={!!yearCountErrorMessage}
-                    helperText={yearCountErrorMessage}
+                    error={dirty.yearCountString && !!errorMessages.yearCountString}
+                    helperText={errorMessages.yearCountString}
                 />
             </Grid>
         </Grid>

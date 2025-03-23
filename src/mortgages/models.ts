@@ -8,15 +8,15 @@ export type MortgageYearData = {
     overpaymentFees: number;
 };
 
-export type MortgagesFormData = {
-    borrowedAmountString: string;
-    yearsString: string;
-    monthlyRepaymentString: string;
-    monthlyOverpaymentString: string;
-    interestRateString: string;
-    overpaymentLimitString: string;
-    overpaymentFeeString: string;
-};
+export type MortgagesFormDataKeys =
+    | "borrowedAmountString"
+    | "yearsString"
+    | "monthlyRepaymentString"
+    | "monthlyOverpaymentString"
+    | "interestRateString"
+    | "overpaymentLimitString"
+    | "overpaymentFeeString";
+export type MortgagesFormData = Record<MortgagesFormDataKeys, string>;
 
 export type MortgagesInputs = {
     borrowedAmount: number;

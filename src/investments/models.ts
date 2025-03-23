@@ -5,13 +5,13 @@ export type InvestmentYearData = {
     totalValue: number;
 };
 
-export type InvestmentsFormData = {
-    initialAmountString: string;
-    monthlyAmountString: string;
-    yearlyAmountString: string;
-    growthString: string;
-    yearCountString: string;
-};
+export type InvestmentsFormDataKeys =
+    | "initialAmountString"
+    | "monthlyAmountString"
+    | "yearlyAmountString"
+    | "growthString"
+    | "yearCountString";
+export type InvestmentsFormData = Record<InvestmentsFormDataKeys, string>;
 
 export type InvestmentsInputs = {
     initialAmount: number;
