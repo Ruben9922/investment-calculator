@@ -45,10 +45,10 @@ const initialMortgagesFormData: MortgagesFormData = {
     borrowedAmountString: "",
     yearsString: "",
     monthlyRepaymentString: "",
-    monthlyOverpaymentString: "",
+    monthlyOverpaymentString: "0",
     interestRateString: "",
-    overpaymentLimitString: "",
-    overpaymentFeeString: ""
+    overpaymentLimitString: "0",
+    overpaymentFeeString: "0"
 };
 
 function App() {
