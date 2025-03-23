@@ -208,7 +208,7 @@ function App() {
                     <Container maxWidth="md" component={Box} padding={4}>
                         <TabContext value={selectedTab}>
                             <Stack direction="row">
-                                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                                <Box sx={{ borderBottom: 1, borderColor: "divider" }} flex={1}>
                                     <TabList
                                         onChange={(_, value) => navigate(`/${value}`)}
                                         aria-label="Investment calculator / mortgage calculator tabs"
@@ -255,11 +255,12 @@ function App() {
                                 <Typography gutterBottom>
                                     Copy a URL to share as an example or save for later.
                                 </Typography>
-                                <Stack direction="row">
+                                <Stack direction="row" spacing={1}>
                                     <TextField
                                         disabled
                                         label="Share URL"
                                         value={constructShareUrl()}
+                                        sx={{ flex: 1 }}
                                     />
                                     <Tooltip title="Copy URL">
                                         <IconButton
