@@ -39,7 +39,7 @@ const initialInvestmentsFormData: InvestmentsFormData = {
     yearlyAmountString: "0",
     growthString: "10",
     yearCountString: "50",
-}
+};
 
 const initialMortgagesFormData: MortgagesFormData = {
     borrowedAmountString: "",

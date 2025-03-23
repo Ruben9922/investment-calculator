@@ -5,6 +5,7 @@ import {useContext} from "react";
 import {NumberFormatValues, NumericFormat} from "react-number-format";
 import {Updater, useImmer} from "use-immer";
 import {CurrencyContext} from "../App.tsx";
+import {formatCurrency} from "../formatting.ts";
 import {
     validateInitialAmount,
     validateInterestRate,
@@ -185,7 +186,9 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     error={dirty.overpaymentLimitString && !!errorMessages.overpaymentLimitString}
                     helperText={dirty.overpaymentLimitString && errorMessages.overpaymentLimitString
                         ? errorMessages.overpaymentLimitString
-                        : <>&nbsp;</>}
+                        : (!errorMessages.overpaymentLimitString && !errorMessages.borrowedAmountString
+                            ? `Initially this is ${formatCurrency(values.borrowedAmount * values.overpaymentLimit / 100, currency)} yearly.`
+                            : <>&nbsp;</>)}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 3 }}>
