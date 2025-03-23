@@ -12,3 +12,11 @@ export type InvestmentsFormData = {
     growthString: string;
     yearCountString: string;
 };
+
+export type InvestmentsInputs = {
+    initialAmount: number;
+    monthlyAmount: number;
+    yearlyAmount: number;
+    growth: number;
+    yearCount: number;
+};

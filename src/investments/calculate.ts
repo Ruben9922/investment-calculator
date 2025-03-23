@@ -1,12 +1,12 @@
-import {InvestmentYearData} from "./models.ts";
+import {InvestmentsInputs, InvestmentYearData} from "./models.ts";
 
-export function calculate(
-    initialAmount: number,
-    monthlyAmount: number,
-    yearlyAmount: number,
-    growth: number,
-    yearCount: number,
-): InvestmentYearData[] {
+export function calculate({
+                              initialAmount,
+                              monthlyAmount,
+                              yearlyAmount,
+                              growth,
+                              yearCount,
+                          }: InvestmentsInputs): InvestmentYearData[] {
     const yearlyMultiplier = 1 + growth;
     const monthlyMultiplier = yearlyMultiplier ** (1 / 12);
 
@@ -20,6 +20,7 @@ export function calculate(
             totalValue += monthlyAmount;
 
             // Apply growth on a monthly basis
+            // todo i think this should be applied first, current monthly amount shouldn't immediately receive interest?
             totalValue *= monthlyMultiplier;
         }
 

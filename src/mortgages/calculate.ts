@@ -1,17 +1,16 @@
-import {MortgageYearData} from "./models.ts";
+import {MortgagesInputs, MortgageYearData} from "./models.ts";
 
-// todo maybe put all these inputs into an object so it's easier to pass around
-export function calculate(
-    borrowedAmount: number,
-    years: number,
-    monthlyRepayment: number,
-    monthlyOverpayment: number,
-    initialInterestRate: number,
-    initialInterestRateYears: number,
-    subsequentInterestRate: number,
-    overpaymentLimit: number, // todo overpayment limits / fees
-    overpaymentFee: number,
-): MortgageYearData[] {
+export function calculate({
+                              borrowedAmount,
+                              years,
+                              monthlyRepayment,
+                              monthlyOverpayment,
+                              initialInterestRate,
+                              initialInterestRateYears,
+                              subsequentInterestRate,
+                              overpaymentLimit,
+                              overpaymentFee,
+                          }: MortgagesInputs): MortgageYearData[] {
     const yearsData: MortgageYearData[] = [];
     yearsData.push({
         year: 0,

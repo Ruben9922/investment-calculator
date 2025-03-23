@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography";
 import {useState} from "react";
 import {Updater} from "use-immer";
 import InvalidInputAlert from "../InvalidInputAlert.tsx";
-import {calculate} from "./calculate.ts";
 import {validate} from "../validate.ts";
+import {calculate} from "./calculate.ts";
 import InvestmentsChart from "./InvestmentsChart.tsx";
 import InvestmentsForm from "./InvestmentsForm.tsx";
 import InvestmentsTable from "./InvestmentsTable.tsx";
@@ -28,7 +28,13 @@ function InvestmentsTab({ investmentsFormData, setInvestmentsFormData }: Investm
 
     const valid = validate(initialAmount, monthlyAmount, yearlyAmount, growth, yearCount);
 
-    const yearsData = valid ? calculate(initialAmount, monthlyAmount, yearlyAmount, growth / 100, yearCount) : null;
+    const yearsData = valid ? calculate({
+        initialAmount,
+        monthlyAmount,
+        yearlyAmount,
+        growth: growth / 100,
+        yearCount,
+    }) : null;
 
     return (
         <Stack spacing={4}>

@@ -36,17 +36,17 @@ function MortgagesTab({ mortgageFormData, setMortgageFormData }: MortgagesTabPro
         overpaymentFee,
     );
 
-    const yearsData = valid ? calculate(
+    const yearsData = valid ? calculate({
         borrowedAmount,
         years,
         monthlyRepayment,
         monthlyOverpayment,
-        initialInterestRate / 100,
+        initialInterestRate: initialInterestRate / 100,
         initialInterestRateYears,
-        subsequentInterestRate / 100,
+        subsequentInterestRate: subsequentInterestRate / 100,
         overpaymentLimit,
-        overpaymentFee / 100,
-    ) : null;
+        overpaymentFee: overpaymentFee / 100,
+    }) : null;
 
     // todo disclaimer
     return (
