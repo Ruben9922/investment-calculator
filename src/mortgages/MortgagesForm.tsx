@@ -104,7 +104,6 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                         : <>&nbsp;</>}
                 />
             </Grid>
-            {/* todo allow decimal interest rates (2 d.p.) */}
             <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                 <NumericFormat
                     label="Interest rate"
@@ -113,7 +112,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     onValueChange={onValueChange("interestRateString")}
                     thousandSeparator
                     valueIsNumericString
-                    decimalScale={0}
+                    decimalScale={2}
 
                     name="interestRate"
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
@@ -132,7 +131,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     onValueChange={onValueChange("monthlyRepaymentString")}
                     thousandSeparator
                     valueIsNumericString
-                    decimalScale={0}
+                    decimalScale={2}
 
                     name="monthlyRepayment"
                     slotProps={{
@@ -155,7 +154,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     onValueChange={onValueChange("monthlyOverpaymentString")}
                     thousandSeparator
                     valueIsNumericString
-                    decimalScale={0}
+                    decimalScale={2}
 
                     name="monthlyOverpayment"
                     slotProps={{
@@ -197,7 +196,7 @@ function MortgagesForm({ mortgageFormData, setMortgageFormData }: MortgagesFormP
                     onValueChange={onValueChange("overpaymentFeeString")}
                     thousandSeparator
                     valueIsNumericString
-                    decimalScale={0}
+                    decimalScale={2}
 
                     name="overpaymentFee"
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
