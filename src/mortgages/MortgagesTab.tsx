@@ -38,7 +38,7 @@ function MortgagesTab({ mortgageFormData, setMortgageFormData }: MortgagesTabPro
         monthlyRepayment,
         monthlyOverpayment,
         interestRate: interestRate / 100,
-        overpaymentLimit,
+        overpaymentLimit: overpaymentLimit / 100,
         overpaymentFee: overpaymentFee / 100,
     }) : null;
 
