@@ -207,7 +207,7 @@ function App() {
                 <CurrencyContext.Provider value={currency}>
                     <Container maxWidth="md" component={Box} padding={4}>
                         <TabContext value={selectedTab}>
-                            <Stack direction="row">
+                            <Stack direction="row" spacing={1}>
                                 <Box sx={{ borderBottom: 1, borderColor: "divider" }} flex={1}>
                                     <TabList
                                         onChange={(_, value) => navigate(`/${value}`)}
