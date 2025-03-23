@@ -69,7 +69,9 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     }}
                     fullWidth
                     error={dirty.initialAmountString && !!errorMessages.initialAmountString}
-                    helperText={dirty.initialAmountString && errorMessages.initialAmountString}
+                    helperText={dirty.initialAmountString && errorMessages.initialAmountString
+                        ? errorMessages.initialAmountString
+                        : <>&nbsp;</>}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
@@ -90,7 +92,9 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     }}
                     fullWidth
                     error={dirty.monthlyAmountString && !!errorMessages.monthlyAmountString}
-                    helperText={dirty.monthlyAmountString && errorMessages.monthlyAmountString}
+                    helperText={dirty.monthlyAmountString && errorMessages.monthlyAmountString
+                        ? errorMessages.monthlyAmountString
+                        : <>&nbsp;</>}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2.5 }}>
@@ -111,7 +115,9 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     }}
                     fullWidth
                     error={dirty.yearlyAmountString && !!errorMessages.yearlyAmountString}
-                    helperText={dirty.yearlyAmountString && errorMessages.yearlyAmountString}
+                    helperText={dirty.yearlyAmountString && errorMessages.yearlyAmountString
+                        ? errorMessages.yearlyAmountString
+                        : <>&nbsp;</>}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
@@ -128,7 +134,9 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
                     error={dirty.growthString && !!errorMessages.growthString}
-                    helperText={dirty.growthString && errorMessages.growthString}
+                    helperText={dirty.growthString && errorMessages.growthString
+                        ? errorMessages.growthString
+                        : <>&nbsp;</>}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
@@ -144,7 +152,9 @@ function InvestmentsForm({ investmentsFormData, setInvestmentsFormData }: Invest
                     name="yearCount"
                     fullWidth
                     error={dirty.yearCountString && !!errorMessages.yearCountString}
-                    helperText={dirty.yearCountString && errorMessages.yearCountString}
+                    helperText={dirty.yearCountString && errorMessages.yearCountString
+                        ? errorMessages.yearCountString
+                        : <>&nbsp;</>}
                 />
             </Grid>
         </Grid>
