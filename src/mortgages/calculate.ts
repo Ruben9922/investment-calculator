@@ -5,9 +5,7 @@ export function calculate({
                               years,
                               monthlyRepayment,
                               monthlyOverpayment,
-                              initialInterestRate,
-                              initialInterestRateYears,
-                              subsequentInterestRate,
+                              interestRate,
                               overpaymentLimit,
                               overpaymentFee,
                           }: MortgagesInputs): MortgageYearData[] {
@@ -22,8 +20,6 @@ export function calculate({
         overpaymentFees: 0,
     });
     for (let year = 1; year <= years; year++) {
-        // todo check it shouldn't be < instead of <=
-        const interestRate = year <= initialInterestRateYears ? initialInterestRate : subsequentInterestRate;
         const yearlyMultiplier = 1 + interestRate;
         const monthlyMultiplier = yearlyMultiplier ** (1 / 12);
 

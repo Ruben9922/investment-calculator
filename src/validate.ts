@@ -100,9 +100,7 @@ export function validateMortgage(
     years: number,
     monthlyRepayment: number,
     monthlyOverpayment: number,
-    initialInterestRate: number,
-    initialInterestRateYears: number,
-    subsequentInterestRate: number,
+    interestRate: number,
     overpaymentLimit: number,
     overpaymentFee: number,
 ): boolean {
@@ -110,9 +108,7 @@ export function validateMortgage(
         && !validateYearCount(years)
         && !validateRecurringAmount(monthlyRepayment)
         && !validateRecurringAmount(monthlyOverpayment)
-        && !validateInterestRate(initialInterestRate)
-        && !validateYearCount(initialInterestRateYears)
-        && !validateInterestRate(subsequentInterestRate)
+        && !validateInterestRate(interestRate)
         && !validatePercentMin0Max100(overpaymentLimit)
         && !validatePercentMin0Max100(overpaymentFee);
 }

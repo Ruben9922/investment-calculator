@@ -18,9 +18,7 @@ function MortgagesTab({ mortgageFormData, setMortgageFormData }: MortgagesTabPro
     const years = parseInt(mortgageFormData.yearsString);
     const monthlyRepayment = parseFloat(mortgageFormData.monthlyRepaymentString);
     const monthlyOverpayment = parseFloat(mortgageFormData.monthlyOverpaymentString);
-    const initialInterestRate = parseFloat(mortgageFormData.initialInterestRateString);
-    const initialInterestRateYears = parseInt(mortgageFormData.initialInterestRateYearsString);
-    const subsequentInterestRate = parseFloat(mortgageFormData.subsequentInterestRateString);
+    const interestRate = parseFloat(mortgageFormData.interestRateString);
     const overpaymentLimit = parseFloat(mortgageFormData.overpaymentLimitString);
     const overpaymentFee = parseFloat(mortgageFormData.overpaymentFeeString);
 
@@ -29,9 +27,7 @@ function MortgagesTab({ mortgageFormData, setMortgageFormData }: MortgagesTabPro
         years,
         monthlyRepayment,
         monthlyOverpayment,
-        initialInterestRate,
-        initialInterestRateYears,
-        subsequentInterestRate,
+        interestRate,
         overpaymentLimit,
         overpaymentFee,
     );
@@ -41,9 +37,7 @@ function MortgagesTab({ mortgageFormData, setMortgageFormData }: MortgagesTabPro
         years,
         monthlyRepayment,
         monthlyOverpayment,
-        initialInterestRate: initialInterestRate / 100,
-        initialInterestRateYears,
-        subsequentInterestRate: subsequentInterestRate / 100,
+        interestRate: interestRate / 100,
         overpaymentLimit,
         overpaymentFee: overpaymentFee / 100,
     }) : null;
@@ -57,18 +51,14 @@ function MortgagesTab({ mortgageFormData, setMortgageFormData }: MortgagesTabPro
                     yearsString={mortgageFormData.yearsString}
                     monthlyRepaymentString={mortgageFormData.monthlyRepaymentString}
                     monthlyOverpaymentString={mortgageFormData.monthlyOverpaymentString}
-                    initialInterestRateString={mortgageFormData.initialInterestRateString}
-                    initialInterestRateYearsString={mortgageFormData.initialInterestRateYearsString}
-                    subsequentInterestRateString={mortgageFormData.subsequentInterestRateString}
+                    interestRateString={mortgageFormData.interestRateString}
                     overpaymentLimitString={mortgageFormData.overpaymentLimitString}
                     overpaymentFeeString={mortgageFormData.overpaymentFeeString}
                     setBorrowedAmountString={v => setMortgageFormData(mfd => void (mfd.borrowedAmountString = v))}
                     setYearsString={v => setMortgageFormData(mfd => void (mfd.yearsString = v))}
                     setMonthlyRepaymentString={v => setMortgageFormData(mfd => void (mfd.monthlyRepaymentString = v))}
                     setMonthlyOverpaymentString={v => setMortgageFormData(mfd => void (mfd.monthlyOverpaymentString = v))}
-                    setInitialInterestRateString={v => setMortgageFormData(mfd => void (mfd.initialInterestRateString = v))}
-                    setInitialInterestRateYearsString={v => setMortgageFormData(mfd => void (mfd.initialInterestRateYearsString = v))}
-                    setSubsequentInterestRateString={v => setMortgageFormData(mfd => void (mfd.subsequentInterestRateString = v))}
+                    setInterestRateString={v => setMortgageFormData(mfd => void (mfd.interestRateString = v))}
                     setOverpaymentLimitString={v => setMortgageFormData(mfd => void (mfd.overpaymentLimitString = v))}
                     setOverpaymentFeeString={v => setMortgageFormData(mfd => void (mfd.overpaymentFeeString = v))}
                 />

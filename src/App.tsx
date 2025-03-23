@@ -46,9 +46,7 @@ const initialMortgagesFormData: MortgagesFormData = {
     yearsString: "",
     monthlyRepaymentString: "",
     monthlyOverpaymentString: "",
-    initialInterestRateString: "",
-    initialInterestRateYearsString: "",
-    subsequentInterestRateString: "",
+    interestRateString: "",
     overpaymentLimitString: "",
     overpaymentFeeString: ""
 };
@@ -87,17 +85,14 @@ function App() {
                 setSelectedTab("mortgages");
                 // todo: maybe do this in a more elegant way
                 if (query.has("borrowedAmount") && query.has("years") && query.has("monthlyRepayment")
-                    && query.has("monthlyOverpayment") && query.has("initialInterestRate")
-                    && query.has("initialInterestRateYears") && query.has("subsequentInterestRate")
-                    && query.has("overpaymentLimit") && query.has("overpaymentFee"))
+                    && query.has("monthlyOverpayment") && query.has("interestRate") && query.has("overpaymentLimit")
+                    && query.has("overpaymentFee"))
                 setMortgagesFormData({
                     borrowedAmountString: query.get("borrowedAmount") ?? "",
                     yearsString: query.get("years") ?? "",
                     monthlyRepaymentString: query.get("monthlyRepayment") ?? "",
                     monthlyOverpaymentString: query.get("monthlyOverpayment") ?? "",
-                    initialInterestRateString: query.get("initialInterestRate") ?? "",
-                    initialInterestRateYearsString: query.get("initialInterestRateYears") ?? "",
-                    subsequentInterestRateString: query.get("subsequentInterestRate") ?? "",
+                    interestRateString: query.get("interestRate") ?? "",
                     overpaymentLimitString: query.get("overpaymentLimit") ?? "",
                     overpaymentFeeString: query.get("overpaymentFee") ?? "",
                 });

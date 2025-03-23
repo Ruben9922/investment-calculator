@@ -17,18 +17,14 @@ type MortgagesFormProps = {
     yearsString: string;
     monthlyRepaymentString: string;
     monthlyOverpaymentString: string;
-    initialInterestRateString: string;
-    initialInterestRateYearsString: string;
-    subsequentInterestRateString: string;
+    interestRateString: string;
     overpaymentLimitString: string;
     overpaymentFeeString: string;
     setBorrowedAmountString: (updatedBorrowedAmountString: string) => void;
     setYearsString: (updatedYearsString: string) => void;
     setMonthlyRepaymentString: (updatedMonthlyRepaymentString: string) => void;
     setMonthlyOverpaymentString: (updatedMonthlyOverpaymentString: string) => void;
-    setInitialInterestRateString: (updatedInitialInterestRateString: string) => void;
-    setInitialInterestRateYearsString: (updatedInitialInterestRateYearsString: string) => void;
-    setSubsequentInterestRateString: (updatedSubsequentInterestRateString: string) => void;
+    setInterestRateString: (updatedInterestRateString: string) => void;
     setOverpaymentLimitString: (updatedOverpaymentLimitString: string) => void;
     setOverpaymentFeeString: (updatedOverpaymentFeeString: string) => void;
 };
@@ -38,18 +34,14 @@ function MortgagesForm({
     yearsString,
     monthlyRepaymentString,
     monthlyOverpaymentString,
-    initialInterestRateString,
-    initialInterestRateYearsString,
-    subsequentInterestRateString,
+    interestRateString,
     overpaymentLimitString,
     overpaymentFeeString,
     setBorrowedAmountString,
     setYearsString,
     setMonthlyRepaymentString,
     setMonthlyOverpaymentString,
-    setInitialInterestRateString,
-    setInitialInterestRateYearsString,
-    setSubsequentInterestRateString,
+    setInterestRateString,
     setOverpaymentLimitString,
     setOverpaymentFeeString,
 }: MortgagesFormProps) {
@@ -59,9 +51,7 @@ function MortgagesForm({
     const years = parseInt(yearsString);
     const monthlyRepayment = parseFloat(monthlyRepaymentString);
     const monthlyOverpayment = parseFloat(monthlyOverpaymentString);
-    const initialInterestRate = parseFloat(initialInterestRateString);
-    const initialInterestRateYears = parseInt(initialInterestRateYearsString);
-    const subsequentInterestRate = parseFloat(subsequentInterestRateString);
+    const interestRate = parseFloat(interestRateString);
     const overpaymentLimit = parseFloat(overpaymentLimitString);
     const overpaymentFee = parseFloat(overpaymentFeeString);
 
@@ -69,13 +59,10 @@ function MortgagesForm({
     const yearsErrorMessage = validateYearCount(years);
     const monthlyRepaymentErrorMessage = validateRecurringAmount(monthlyRepayment);
     const monthlyOverpaymentErrorMessage = validateRecurringAmount(monthlyOverpayment);
-    const initialInterestRateErrorMessage = validateInterestRate(initialInterestRate);
-    const initialInterestRateYearsErrorMessage = validateYearCount(initialInterestRateYears);
-    const subsequentInterestRateErrorMessage = validateInterestRate(subsequentInterestRate);
+    const interestRateErrorMessage = validateInterestRate(interestRate);
     const overpaymentLimitErrorMessage = validatePercentMin0Max100(overpaymentLimit);
     const overpaymentFeeErrorMessage = validatePercentMin0Max100(overpaymentFee);
 
-    // todo: just use a single interest rate, otherwise it's just overcomplicating things
     return (
         <Grid container spacing={2}>
             <Grid size={{ xs: 12, sm: 6, md: 3}}>
@@ -160,53 +147,19 @@ function MortgagesForm({
             {/* todo allow decimal interest rates (2 d.p.) */}
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
                 <NumericFormat
-                    label="Initial interest rate"
-                    value={initialInterestRateString}
+                    label="Interest rate"
+                    value={interestRateString}
                     customInput={TextField}
-                    onValueChange={values => setInitialInterestRateString(values.value)}
+                    onValueChange={values => setInterestRateString(values.value)}
                     thousandSeparator
                     valueIsNumericString
                     decimalScale={0}
 
-                    name="initialInterestRate"
+                    name="interestRate"
                     slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
                     fullWidth
-                    error={!!initialInterestRateErrorMessage}
-                    helperText={initialInterestRateErrorMessage}
-                />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
-                <NumericFormat
-                    label="Initial interest rate period (yrs)"
-                    value={initialInterestRateYearsString}
-                    customInput={TextField}
-                    onValueChange={values => setInitialInterestRateYearsString(values.value)}
-                    thousandSeparator
-                    valueIsNumericString
-                    decimalScale={0}
-
-                    name="initialInterestRateYears"
-                    slotProps={{ input: { endAdornment: <InputAdornment position="end">yrs</InputAdornment> } }}
-                    fullWidth
-                    error={!!initialInterestRateYearsErrorMessage}
-                    helperText={initialInterestRateYearsErrorMessage}
-                />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6, md: 2 }}>
-                <NumericFormat
-                    label="Subsequent interest rate"
-                    value={subsequentInterestRateString}
-                    customInput={TextField}
-                    onValueChange={values => setSubsequentInterestRateString(values.value)}
-                    thousandSeparator
-                    valueIsNumericString
-                    decimalScale={0}
-
-                    name="subsequentInterestRate"
-                    slotProps={{ input: { endAdornment: <InputAdornment position="end">%</InputAdornment> } }}
-                    fullWidth
-                    error={!!subsequentInterestRateErrorMessage}
-                    helperText={subsequentInterestRateErrorMessage}
+                    error={!!interestRateErrorMessage}
+                    helperText={interestRateErrorMessage}
                 />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 2 }}>
